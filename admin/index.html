@@ -297,7 +297,7 @@
     </div>
     <nav class="sidebar-nav">
       <div class="nav-item active" onclick="switchTab('dashboard')">Dashboard</div>
-      <div class="nav-item" onclick="switchTab('preco')">Preço & Stripe</div>
+      <div class="nav-item" onclick="switchTab('preco')">Preço & Checkout</div>
       <div class="nav-item" onclick="switchTab('textos')">Textos & Vídeos</div>
       <div class="nav-item" onclick="switchTab('depoimentos')">Depoimentos</div>
       <div class="nav-item" onclick="switchTab('faq')">FAQ</div>
@@ -340,9 +340,9 @@
       </div>
     </div>
 
-    <!-- PREÇO & STRIPE -->
+    <!-- PREÇO & CHECKOUT -->
     <div class="tab-panel hidden" id="tab-preco">
-      <div class="topbar"><div><h1>Preço & Stripe</h1><p>Valores e Link de Checkout</p></div></div>
+      <div class="topbar"><div><h1>Preço & Checkout</h1><p>Valores e Link de Checkout</p></div></div>
 
       <div class="card">
         <div class="card-title">Configuração de Preço & Checkout</div>
@@ -369,8 +369,8 @@
             </div>
           </div>
           <div class="form-group form-full">
-            <label>Link de Pagamento Stripe (Payment Link)</label>
-            <input type="url" id="stripeUrl" placeholder="https://buy.stripe.com/test_dRm14fap358P8KYb8z4wM00"/>
+            <label>Link de Pagamento (Ex: PagBank)</label>
+            <input type="url" id="stripeUrl" placeholder="https://pag.ae/829R9eJM1"/>
           </div>
           <div class="form-group form-full">
             <label>Texto do botão CTA</label>
@@ -408,7 +408,7 @@
           <div class="form-group form-full">
             <label>URL do Vídeo 1</label>
             <div style="display: flex; gap: 10px;">
-              <input type="url" id="videoUrl1" placeholder="https://res.cloudinary.com/wqzty38l/video/upload/v1/video1.mp4" style="flex:1;"/>
+              <input type="url" id="videoUrl1" placeholder="Ex: URL do Cloudinary ou YouTube" style="flex:1;"/>
               <button type="button" class="btn btn-secondary" onclick="openCloudinaryWidget('videoUrl1')">
                 📁 Enviar Vídeo 1
               </button>
@@ -423,7 +423,7 @@
           <div class="form-group form-full">
             <label>URL do Vídeo 2</label>
             <div style="display: flex; gap: 10px;">
-              <input type="url" id="videoUrl2" placeholder="https://res.cloudinary.com/wqzty38l/video/upload/v1/video2.mp4" style="flex:1;"/>
+              <input type="url" id="videoUrl2" placeholder="Ex: URL do Cloudinary ou YouTube" style="flex:1;"/>
               <button type="button" class="btn btn-secondary" onclick="openCloudinaryWidget('videoUrl2')">
                 📁 Enviar Vídeo 2
               </button>
@@ -502,9 +502,9 @@
   const db = getFirestore(app);
   const auth = getAuth(app);
 
-  // ── CONFIGURAÇÃO OFICIAL DO CLOUDINARY COM REPETIÇÃO ──
-  const CLOUDINARY_CLOUD_NAME = "wqzty38l"; 
-  const CLOUDINARY_UPLOAD_PRESET = "rastrek"; 
+  // ── CONFIGURAÇÃO DO CLOUDINARY (ATUALIZADA) ──
+  const CLOUDINARY_CLOUD_NAME = "vnlr29h4"; 
+  const CLOUDINARY_UPLOAD_PRESET = "Unsigned"; 
   let cloudinaryLoadingInterval = null;
 
   window.openCloudinaryWidget = function(targetInputId) {
@@ -536,7 +536,7 @@
       cloudName: CLOUDINARY_CLOUD_NAME, 
       uploadPreset: CLOUDINARY_UPLOAD_PRESET,
       sources: ['local', 'url', 'camera'],
-      resourceType: 'video',
+      resourceType: 'video', // Garante que a API aceite ficheiros de vídeo
       multiple: false,
       clientAllowedFormats: ['mp4', 'mov', 'avi', 'webm'],
       maxFileSize: 100000000,
@@ -613,7 +613,7 @@
     price: "289", 
     monthlyPrice: "39.90",
     originalPrice: "499",
-    stripeUrl: "https://buy.stripe.com/test_dRm14fap358P8KYb8z4wM00",
+    stripeUrl: "https://pag.ae/829R9eJM1",
     videoUrl1: "",
     videoUrl2: "",
     heroTitle: "Saiba onde está o que mais importa<br/><em>a qualquer hora, de qualquer lugar</em>",
@@ -698,7 +698,7 @@
       price: document.getElementById('price').value || '289',
       monthlyPrice: document.getElementById('monthlyPrice').value || '39.90',
       originalPrice: document.getElementById('originalPrice').value || '499',
-      stripeUrl: document.getElementById('stripeUrl').value.trim() || 'https://buy.stripe.com/test_dRm14fap358P8KYb8z4wM00',
+      stripeUrl: document.getElementById('stripeUrl').value.trim() || 'https://pag.ae/829R9eJM1',
       videoUrl1: document.getElementById('videoUrl1').value.trim(),
       videoUrl2: document.getElementById('videoUrl2').value.trim(),
       ctaText: document.getElementById('ctaText').value || 'QUERO MEU RASTREK AGORA →',

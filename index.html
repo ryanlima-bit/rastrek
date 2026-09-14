@@ -15,7 +15,6 @@
   <style>
     /* ── TOKENS DE DESIGN ── */
     :root {
-      /* NOVA COR PRINCIPAL */
       --orange: #ffd229;
       --orange-dim: #cca821;
       --orange-glow: rgba(255, 210, 41, 0.18);
@@ -480,7 +479,7 @@
     </svg>
     Rastrek
   </div>
-  <a href="https://buy.stripe.com/test_dRm14fap358P8KYb8z4wM00" class="nav-cta" id="nav-cta-btn">Comprar Agora</a>
+  <a href="https://pag.ae/829R9eJM1" class="nav-cta" id="nav-cta-btn">Comprar Agora</a>
 </nav>
 
 <!-- HERO SECTION -->
@@ -504,7 +503,7 @@
     <div class="price-subscription">+ <span id="monthly-price-val">R$ 39,90</span> / mês (Assinatura GPS)</div>
   </div>
 
-  <a href="https://buy.stripe.com/test_dRm14fap358P8KYb8z4wM00" class="btn-cta" id="main-cta-btn">QUERO MINHA TAG AGORA →</a>
+  <a href="https://pag.ae/829R9eJM1" class="btn-cta" id="main-cta-btn">QUERO MINHA TAG AGORA →</a>
   <p class="urgency-line" id="urgency-text">Oferta por tempo limitado!</p>
 
   <div class="trust-row">
@@ -709,7 +708,7 @@
     <div class="price-subscription">+ <span class="monthly-price-ref">R$ 39,90</span> / mês</div>
   </div>
 
-  <a href="https://buy.stripe.com/test_dRm14fap358P8KYb8z4wM00" class="btn-cta" id="final-cta-btn">QUERO MINHA TAG AGORA →</a>
+  <a href="https://pag.ae/829R9eJM1" class="btn-cta" id="final-cta-btn">QUERO MINHA TAG AGORA →</a>
   <p class="urgency-line" id="urgency-text-2">Oferta por tempo limitado!</p>
 
   <div class="guarantee-row">
@@ -757,7 +756,7 @@
 
   L.marker(mapCoords, { icon: pulseIcon }).addTo(map);
 
-  // ── FIREBASE & CHECKOUT ──
+  // ── FIREBASE ──
   const firebaseConfig = {
     apiKey: "AIzaSyCf6LxQ5a9BPxew-QWoB4O6Z9c-BhodKXI",
     authDomain: "rastrek-5f2f9.firebaseapp.com",
@@ -769,7 +768,9 @@
 
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
-  const STRIPE_TEST_LINK = "https://buy.stripe.com/test_dRm14fap358P8KYb8z4wM00";
+  
+  // O TEU LINK DO PAGBANK AQUI
+  const PAGBANK_LINK = "https://pag.ae/829R9eJM1";
 
   // ── INTERAÇÃO 3D DA TAG RASTREK ──
   const card = document.getElementById("tagCard");
@@ -796,14 +797,14 @@
     price: "289",
     monthlyPrice: "39.90",
     originalPrice: "499",
-    stripeUrl: STRIPE_TEST_LINK,
+    stripeUrl: PAGBANK_LINK, // Usa a variável do Pagbank
     videoUrl1: "",
     videoUrl2: "",
     heroTitle: "A solução simples e inteligente<br/><em>que protege o que é seu</em>",
     heroSubtitle: "Mais segurança para seus bens, sem instalação elétrica e com acompanhamento pelo celular. Ideal para carros, motos, mochilas e objetos de valor.",
     ctaText: "QUERO MINHA TAG AGORA →",
     urgencyText: "Oferta por tempo limitado!",
-    whatsappNumber: "5511992606660", // Atualizado para o telefone oficial do site
+    whatsappNumber: "5511992606660",
     testimonials: [
       { name: "Carlos M.", city: "São Paulo, SP", text: "Meu carro foi roubado há dois anos. Depois de instalar a TAG Rastrek, fiquei tranquilo.", stars: 5 },
       { name: "Fernanda L.", city: "Rio de Janeiro, RJ", text: "Comprei para colocar na mala e na mochila da minha filha. Agora sei em tempo real onde está. Vale muito a pena!", stars: 5 },
@@ -864,7 +865,7 @@
       document.getElementById('final-cta-btn').textContent = c.ctaText;
     }
 
-    const checkoutUrl = c.stripeUrl || STRIPE_TEST_LINK;
+    const checkoutUrl = c.stripeUrl || PAGBANK_LINK;
     document.getElementById('main-cta-btn').href = checkoutUrl;
     document.getElementById('final-cta-btn').href = checkoutUrl;
     document.getElementById('nav-cta-btn').href = checkoutUrl;
