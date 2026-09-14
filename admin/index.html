@@ -409,9 +409,9 @@
             <label>URL do Vídeo 1</label>
             <div style="display: flex; gap: 10px;">
               <input type="url" id="videoUrl1" placeholder="Ex: URL do Cloudinary ou YouTube" style="flex:1;"/>
-              <button type="button" class="btn btn-secondary" onclick="openCloudinaryWidget('videoUrl1')">
-                📁 Enviar Vídeo 1
-              </button>
+              <button type="button" class="btn btn-secondary" onclick="openCloudinaryWidget('videoUrl1', event)">
+  📁 Enviar Vídeo 1
+</button>
             </div>
           </div>
         </div>
@@ -424,9 +424,9 @@
             <label>URL do Vídeo 2</label>
             <div style="display: flex; gap: 10px;">
               <input type="url" id="videoUrl2" placeholder="Ex: URL do Cloudinary ou YouTube" style="flex:1;"/>
-              <button type="button" class="btn btn-secondary" onclick="openCloudinaryWidget('videoUrl2')">
-                📁 Enviar Vídeo 2
-              </button>
+              <button type="button" class="btn btn-secondary" onclick="openCloudinaryWidget('videoUrl2', event)">
+  📁 Enviar Vídeo 2
+</button>
             </div>
           </div>
         </div>
@@ -502,72 +502,88 @@
   const db = getFirestore(app);
   const auth = getAuth(app);
 
-  // ── CONFIGURAÇÃO DO CLOUDINARY (ATUALIZADA) ──
-  const CLOUDINARY_CLOUD_NAME = "vnlr29h4"; 
-  const CLOUDINARY_UPLOAD_PRESET = "Unsigned"; 
-  let cloudinaryLoadingInterval = null;
+ // ── CONFIGURAÇÃO OFICIAL DO CLOUDINARY COM TIMEOUT DE SEGURANÇA ──
+const CLOUDINARY_CLOUD_NAME = "vnlr29h4"; 
+const CLOUDINARY_UPLOAD_PRESET = "rastrektag"; 
+let cloudinaryLoadingInterval = null;
 
-  window.openCloudinaryWidget = function(targetInputId) {
-    const btn = event ? event.currentTarget : null;
+window.openCloudinaryWidget = function(targetInputId, evt) {
+  // Captura o botão clicado com segurança
+  const btn = evt ? (evt.currentTarget || evt.target) : null;
+  let tentativas = 0;
+  const maxTentativas = 15; // 15 x 300ms = 4.5 segundos limite
 
-    if (typeof cloudinary === 'undefined' || !cloudinary.createUploadWidget) {
-      if (btn) {
-        btn.dataset.originalText = btn.innerHTML;
-        btn.innerHTML = '⏳ A carregar módulo...';
-        btn.disabled = true;
-      }
-      showToast('A preparar o leitor de envio... Por favor aguarde um segundo.', 'success');
-
-      clearInterval(cloudinaryLoadingInterval);
-      cloudinaryLoadingInterval = setInterval(() => {
-        if (typeof cloudinary !== 'undefined' && cloudinary.createUploadWidget) {
-          clearInterval(cloudinaryLoadingInterval);
-          if (btn) {
-            btn.innerHTML = btn.dataset.originalText || '📁 Enviar Vídeo';
-            btn.disabled = false;
-          }
-          window.openCloudinaryWidget(targetInputId);
-        }
-      }, 300);
-      return;
+  // Verifica se o SDK do Cloudinary está disponível na página
+  if (typeof cloudinary === 'undefined' || !cloudinary.createUploadWidget) {
+    if (btn) {
+      btn.dataset.originalText = btn.innerHTML;
+      btn.innerHTML = '⏳ A carregar módulo...';
+      btn.disabled = true;
     }
 
-    const myWidget = cloudinary.createUploadWidget({
-      cloudName: CLOUDINARY_CLOUD_NAME, 
-      uploadPreset: CLOUDINARY_UPLOAD_PRESET,
-      sources: ['local', 'url', 'camera'],
-      resourceType: 'video', // Garante que a API aceite ficheiros de vídeo
-      multiple: false,
-      clientAllowedFormats: ['mp4', 'mov', 'avi', 'webm'],
-      maxFileSize: 100000000,
-      styles: {
-        palette: {
-          window: "#111111",
-          sourceBg: "#1A1A1A",
-          windowBorder: "#ffd229",
-          tabIcon: "#ffd229",
-          inactiveTabIcon: "#888888",
-          menuIcons: "#ffd229",
-          link: "#ffd229",
-          action: "#ffd229",
-          inProgress: "#28a745",
-          complete: "#28a745",
-          error: "#EF4444",
-          textDark: "#000000",
-          textLight: "#FFFFFF"
-        }
-      }
-    }, (error, result) => {
-      if (!error && result && result.event === "success") {
-        const urlSegura = result.info.secure_url;
-        const inputTarget = document.getElementById(targetInputId);
-        if (inputTarget) inputTarget.value = urlSegura;
-        showToast('Vídeo enviado com sucesso!', 'success');
-      }
-    });
+    clearInterval(cloudinaryLoadingInterval);
+    cloudinaryLoadingInterval = setInterval(() => {
+      tentativas++;
 
-    myWidget.open();
-  };
+      // Se o script do Cloudinary carregar, abre o widget
+      if (typeof cloudinary !== 'undefined' && cloudinary.createUploadWidget) {
+        clearInterval(cloudinaryLoadingInterval);
+        if (btn) {
+          btn.innerHTML = btn.dataset.originalText || '📁 Enviar Vídeo';
+          btn.disabled = false;
+        }
+        window.openCloudinaryWidget(targetInputId, evt);
+      } 
+      // Se passar do tempo limite (ex: AdBlock bloqueou o script)
+      else if (tentativas >= maxTentativas) {
+        clearInterval(cloudinaryLoadingInterval);
+        if (btn) {
+          btn.innerHTML = btn.dataset.originalText || '📁 Enviar Vídeo';
+          btn.disabled = false;
+        }
+        showToast('Não foi possível carregar o Cloudinary. Desative o bloqueador de anúncios (AdBlock).', 'error');
+      }
+    }, 300);
+    return;
+  }
+
+  // Cria e abre o Widget de Upload do Cloudinary
+  const myWidget = cloudinary.createUploadWidget({
+    cloudName: CLOUDINARY_CLOUD_NAME, 
+    uploadPreset: CLOUDINARY_UPLOAD_PRESET,
+    sources: ['local', 'url', 'camera'],
+    resourceType: 'video',
+    multiple: false,
+    clientAllowedFormats: ['mp4', 'mov', 'avi', 'webm'],
+    maxFileSize: 100000000, // 100MB
+    styles: {
+      palette: {
+        window: "#111111",
+        sourceBg: "#1A1A1A",
+        windowBorder: "#ffd229",
+        tabIcon: "#ffd229",
+        inactiveTabIcon: "#888888",
+        menuIcons: "#ffd229",
+        link: "#ffd229",
+        action: "#ffd229",
+        inProgress: "#28a745",
+        complete: "#28a745",
+        error: "#EF4444",
+        textDark: "#000000",
+        textLight: "#FFFFFF"
+      }
+    }
+  }, (error, result) => {
+    if (!error && result && result.event === "success") {
+      const urlSegura = result.info.secure_url;
+      const inputTarget = document.getElementById(targetInputId);
+      if (inputTarget) inputTarget.value = urlSegura;
+      showToast('Vídeo enviado com sucesso!', 'success');
+    }
+  });
+
+  myWidget.open();
+};
 
   // ── AUTH ──
   onAuthStateChanged(auth, user => {
