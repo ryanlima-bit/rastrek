@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rastrek — Painel Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- SCRIPT OFICIAL DO CLOUDINARY UPLOAD WIDGET -->
+  <script src="https://upload-widget.cloudinary.com/global/all.js" type="text/javascript"></script>
+
+  <style>
+    :root {
+      --orange: #F97316;
+      --orange-dim: #C05E10;
+      --orange-glow: rgba(249,115,22,0.12);
+      --black: #080808;
+      --surface: #111111;
+      --surface2: #1A1A1A;
+      --surface3: #222222;
+      --border: rgba(255,255,255,0.09);
+      --text: #F0F0F0;
+      --muted: #888;
+      --success: #22C55E;
+      --error: #EF4444;
+      --radius: 10px;
+      --font: 'Inter', sans-serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--font); background: var(--black); color: var(--text); min-height: 100vh; }
+
+    /* LOGIN */
+    .login-screen {
+      min-height: 100vh; display: flex; align-items: center; justify-content: center;
+      padding: 24px;
+    }
+    .login-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px; padding: 48px 40px; width: 100%; max-width: 420px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    }
+    .login-logo {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 1.4rem; font-weight: 800; margin-bottom: 8px;
+    }
+    .login-logo span { color: var(--orange); }
+    .login-box p { color: var(--muted); font-size: 0.88rem; margin-bottom: 32px; }
+
+    /* LAYOUT ADMIN */
+    .admin-wrap { display: flex; min-height: 100vh; }
+    .sidebar {
+      width: 240px; flex-shrink: 0;
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      padding: 24px 0; position: fixed; top: 0; left: 0; bottom: 0;
+      display: flex; flex-direction: column;
+    }
+    .sidebar-logo {
+      padding: 0 24px 24px;
+      font-size: 1.2rem; font-weight: 800;
+      border-bottom: 1px solid var(--border);
+    }
+    .sidebar-logo span { color: var(--orange); }
+    .sidebar-badge {
+      font-size: 0.65rem; font-weight: 600; letter-spacing: 1px;
+      color: var(--orange);
+      background: var(--orange-glow);
+      border: 1px solid rgba(249,115,22,0.2);
+      padding: 2px 8px; border-radius: 4px;
+      display: inline-block; margin-top: 4px;
+    }
+    .sidebar-nav { padding: 16px 0; flex: 1; }
+    .nav-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 24px; font-size: 0.88rem; font-weight: 500;
+      color: var(--muted); cursor: pointer;
+      transition: all 0.15s; border-left: 3px solid transparent;
+      user-select: none;
+    }
+    .nav-item:hover { color: var(--text); background: rgba(255,255,255,0.04); }
+    .nav-item.active { color: var(--orange); border-left-color: var(--orange); background: var(--orange-glow); }
+    .nav-item svg { width: 16px; height: 16px; flex-shrink: 0; }
+    .sidebar-footer { padding: 16px 24px; border-top: 1px solid var(--border); }
+    .btn-logout {
+      width: 100%; padding: 10px; border-radius: 8px;
+      background: transparent; border: 1px solid var(--border);
+      color: var(--muted); font-family: var(--font); font-size: 0.82rem;
+      cursor: pointer; transition: all 0.15s;
+    }
+    .btn-logout:hover { border-color: var(--error); color: var(--error); }
+
+    .main-content {
+      margin-left: 240px; flex: 1; padding: 40px;
+      max-width: calc(100vw - 240px);
+    }
+    .topbar {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 32px;
+    }
+    .topbar h1 { font-size: 1.4rem; font-weight: 700; }
+    .topbar p { font-size: 0.82rem; color: var(--muted); margin-top: 2px; }
+
+    /* FORMS */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px; margin-bottom: 20px;
+    }
+    .card-title {
+      font-size: 0.95rem; font-weight: 700;
+      margin-bottom: 20px; padding-bottom: 14px;
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .card-title svg { color: var(--orange); }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .form-full { grid-column: 1 / -1; }
+    .form-group { display: flex; flex-direction: column; gap: 6px; }
+    .form-group label {
+      font-size: 0.78rem; font-weight: 600; color: var(--muted);
+      text-transform: uppercase; letter-spacing: 0.8px;
+    }
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text); font-family: var(--font); font-size: 0.9rem;
+      padding: 10px 14px;
+      outline: none; transition: border-color 0.15s;
+      resize: vertical;
+    }
+    .form-group input:focus,
+    .form-group textarea:focus {
+      border-color: var(--orange);
+    }
+    .input-prefix {
+      display: flex; align-items: center;
+      background: var(--surface2); border: 1px solid var(--border);
+      border-radius: 8px; overflow: hidden;
+    }
+    .input-prefix span {
+      padding: 10px 12px; font-size: 0.9rem; color: var(--orange);
+      font-weight: 600; border-right: 1px solid var(--border);
+      white-space: nowrap; background: rgba(249,115,22,0.06);
+    }
+    .input-prefix input { border: none; border-radius: 0; background: transparent; }
+
+    /* DYNAMIC LISTS */
+    .dynamic-list { display: flex; flex-direction: column; gap: 12px; }
+    .dynamic-item {
+      background: var(--surface2); border: 1px solid var(--border);
+      border-radius: 8px; padding: 16px;
+      display: flex; gap: 12px; align-items: flex-start;
+    }
+    .dynamic-item-fields { flex: 1; display: flex; flex-direction: column; gap: 8px; }
+    .dynamic-item-fields input,
+    .dynamic-item-fields textarea {
+      background: var(--surface3);
+      border: 1px solid var(--border); border-radius: 6px;
+      color: var(--text); font-family: var(--font); font-size: 0.85rem;
+      padding: 8px 12px; outline: none; width: 100%;
+    }
+    .btn-remove {
+      background: transparent; border: 1px solid rgba(239,68,68,0.3);
+      color: #EF4444; padding: 8px; border-radius: 6px; cursor: pointer;
+      font-size: 1rem; line-height: 1; flex-shrink: 0; transition: all 0.15s;
+    }
+    .btn-remove:hover { background: rgba(239,68,68,0.1); }
+    .btn-add-item {
+      background: var(--orange-glow); border: 1px dashed rgba(249,115,22,0.4);
+      color: var(--orange); font-family: var(--font); font-size: 0.85rem; font-weight: 600;
+      padding: 10px; border-radius: 8px; cursor: pointer;
+      width: 100%; transition: all 0.15s; margin-top: 8px;
+    }
+    .btn-add-item:hover { background: rgba(249,115,22,0.18); }
+
+    /* BUTTONS */
+    .btn {
+      padding: 11px 24px; border-radius: 8px; font-family: var(--font);
+      font-size: 0.88rem; font-weight: 700; cursor: pointer;
+      border: none; transition: all 0.15s; display: inline-flex; align-items: center; gap: 8px;
+    }
+    .btn-primary { background: var(--orange); color: #000; }
+    .btn-primary:hover { opacity: 0.85; }
+    .btn-secondary { background: var(--surface2); border: 1px solid var(--border); color: var(--text); }
+    .btn-secondary:hover { border-color: var(--orange); color: var(--orange); }
+
+    /* SAVE BAR */
+    .save-bar {
+      position: fixed; bottom: 0; left: 240px; right: 0;
+      background: var(--surface); border-top: 1px solid var(--border);
+      padding: 16px 40px;
+      display: flex; align-items: center; justify-content: space-between;
+      z-index: 50;
+    }
+    .save-bar-text { font-size: 0.85rem; color: var(--muted); }
+
+    /* TOAST */
+    .toast {
+      position: fixed; top: 24px; right: 24px; z-index: 9999;
+      background: var(--surface2); border: 1px solid var(--border);
+      border-radius: 10px; padding: 14px 20px;
+      display: flex; align-items: center; gap: 10px;
+      font-size: 0.88rem; font-weight: 600;
+      transform: translateY(-80px); opacity: 0;
+      transition: all 0.3s; pointer-events: none;
+    }
+    .toast.show { transform: translateY(0); opacity: 1; }
+    .toast.success { border-color: var(--success); }
+    .toast.error { border-color: var(--error); }
+    .toast .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+    .toast.success .dot { background: var(--success); }
+    .toast.error .dot { background: var(--error); }
+
+    /* TABS */
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    /* STAT CARDS */
+    .stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px; margin-bottom: 28px; }
+    .stat-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 20px;
+    }
+    .stat-label { font-size: 0.75rem; color: var(--muted); font-weight: 500; margin-bottom: 6px; }
+    .stat-value { font-size: 1.6rem; font-weight: 800; color: var(--orange); }
+    .stat-sub { font-size: 0.75rem; color: var(--muted); margin-top: 2px; }
+
+    /* PREVIEW LINK */
+    .preview-link {
+      display: inline-flex; align-items: center; gap: 6px;
+      color: var(--orange); font-size: 0.82rem; text-decoration: none;
+      padding: 6px 14px; border: 1px solid rgba(249,115,22,0.3);
+      border-radius: 6px; transition: all 0.15s;
+    }
+    .preview-link:hover { background: var(--orange-glow); }
+
+    @media (max-width: 900px) {
+      .sidebar { display: none; }
+      .main-content { margin-left: 0; max-width: 100%; padding: 24px; }
+      .save-bar { left: 0; }
+      .form-grid { grid-template-columns: 1fr; }
+    }
+
+    .spinner {
+      width: 18px; height: 18px; border-radius: 50%;
+      border: 2px solid rgba(0,0,0,0.2);
+      border-top-color: #000;
+      animation: spin 0.7s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <div class="dot"></div>
+  <span id="toast-msg">Salvo com sucesso!</span>
+</div>
+
+<!-- LOGIN -->
+<div class="login-screen" id="login-screen">
+  <div class="login-box">
+    <div class="login-logo">Rast<span>rek</span></div>
+    <p>Painel administrativo — acesso restrito</p>
+
+    <div class="form-group" style="margin-bottom:14px;">
+      <label>E-mail</label>
+      <input type="email" id="login-email" placeholder="admin@rastrek.com.br" autocomplete="email"/>
+    </div>
+    <div class="form-group" style="margin-bottom:24px;">
+      <label>Senha</label>
+      <input type="password" id="login-password" placeholder="••••••••" autocomplete="current-password"/>
+    </div>
+    <button class="btn btn-primary" style="width:100%; justify-content:center;" onclick="doLogin()">
+      <span id="login-label">Entrar no Painel</span>
+      <span class="spinner hidden" id="login-spinner"></span>
+    </button>
+    <p id="login-error" style="color:#EF4444; font-size:0.82rem; margin-top:12px; text-align:center;"></p>
+  </div>
+</div>
+
+<!-- ADMIN -->
+<div class="admin-wrap hidden" id="admin-wrap">
+
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      Rast<span>rek</span>
+      <div class="sidebar-badge">ADMIN</div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-item active" onclick="switchTab('dashboard')">Dashboard</div>
+      <div class="nav-item" onclick="switchTab('preco')">Preço & Stripe</div>
+      <div class="nav-item" onclick="switchTab('textos')">Textos & Vídeo</div>
+      <div class="nav-item" onclick="switchTab('depoimentos')">Depoimentos</div>
+      <div class="nav-item" onclick="switchTab('faq')">FAQ</div>
+      <div class="nav-item" onclick="switchTab('contato')">WhatsApp & Links</div>
+    </nav>
+    <div class="sidebar-footer">
+      <button class="btn-logout" onclick="doLogout()">Sair da conta</button>
+    </div>
+  </aside>
+
+  <main class="main-content" style="padding-bottom: 90px;">
+
+    <!-- DASHBOARD -->
+    <div class="tab-panel active" id="tab-dashboard">
+      <div class="topbar">
+        <div>
+          <h1>Dashboard</h1>
+          <p>Bem-vindo ao painel Rastrek</p>
+        </div>
+        <a href="../index.html" target="_blank" class="preview-link">Ver site</a>
+      </div>
+
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-label">Adesão Equipamento</div>
+          <div class="stat-value" id="dash-price">R$ 289,00</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Mensalidade GPS</div>
+          <div class="stat-value" id="dash-monthly">R$ 39,90</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Depoimentos</div>
+          <div class="stat-value" id="dash-testimonials">—</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Última edição</div>
+          <div class="stat-value" style="font-size:1rem;" id="dash-updated">—</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PREÇO & STRIPE -->
+    <div class="tab-panel hidden" id="tab-preco">
+      <div class="topbar"><div><h1>Preço & Stripe</h1><p>Valores e Link de Checkout</p></div></div>
+
+      <div class="card">
+        <div class="card-title">Configuração de Preço & Checkout</div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Preço da Tag / Adesão (R$)</label>
+            <div class="input-prefix">
+              <span>R$</span>
+              <input type="number" id="price" placeholder="289" step="0.01"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Mensalidade GPS (R$ / mês)</label>
+            <div class="input-prefix">
+              <span>R$</span>
+              <input type="number" id="monthlyPrice" placeholder="39.90" step="0.01"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Preço original / riscado (R$)</label>
+            <div class="input-prefix">
+              <span>R$</span>
+              <input type="number" id="originalPrice" placeholder="499" step="0.01"/>
+            </div>
+          </div>
+          <div class="form-group form-full">
+            <label>Link de Pagamento Stripe (Payment Link)</label>
+            <input type="url" id="stripeUrl" placeholder="https://buy.stripe.com/test_dRm14fap358P8KYb8z4wM00"/>
+          </div>
+          <div class="form-group form-full">
+            <label>Texto do botão CTA</label>
+            <input type="text" id="ctaText" placeholder="QUERO MEU RASTREK AGORA →"/>
+          </div>
+          <div class="form-group form-full">
+            <label>Texto de urgência</label>
+            <input type="text" id="urgencyText" placeholder="Restam apenas 47 unidades no estoque!"/>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TEXTOS & VÍDEO -->
+    <div class="tab-panel hidden" id="tab-textos">
+      <div class="topbar"><div><h1>Textos & Vídeo</h1><p>Conteúdo da Landing Page</p></div></div>
+
+      <div class="card">
+        <div class="card-title">Textos do Hero e Mídia Demonstrativa</div>
+        <div class="form-grid">
+          <div class="form-group form-full">
+            <label>Título principal (suporta &lt;em&gt; e &lt;br/&gt;)</label>
+            <textarea id="heroTitle" rows="3"></textarea>
+          </div>
+          <div class="form-group form-full">
+            <label>Subtítulo do hero</label>
+            <textarea id="heroSubtitle" rows="2"></textarea>
+          </div>
+          <div class="form-group form-full">
+            <label>URL do Vídeo Demonstrativo</label>
+            <div style="display: flex; gap: 10px;">
+              <input type="url" id="videoUrl" placeholder="https://res.cloudinary.com/wqzty38l/video/upload/v1/rastrek.mp4" style="flex:1;"/>
+              <button type="button" class="btn btn-secondary" id="upload-widget-btn" onclick="openCloudinaryWidget()">
+                📁 Enviar Vídeo (Cloudinary)
+              </button>
+            </div>
+            <small style="color:var(--muted); font-size:0.75rem; margin-top:4px;">Você pode colar a URL do vídeo diretamente ou clicar no botão para selecionar do seu computador.</small>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DEPOIMENTOS -->
+    <div class="tab-panel hidden" id="tab-depoimentos">
+      <div class="topbar"><div><h1>Depoimentos</h1><p>Clientes satisfeitos</p></div></div>
+
+      <div class="card">
+        <div class="dynamic-list" id="testimonials-list"></div>
+        <button class="btn-add-item" onclick="addTestimonial()">+ Adicionar depoimento</button>
+      </div>
+    </div>
+
+    <!-- FAQ -->
+    <div class="tab-panel hidden" id="tab-faq">
+      <div class="topbar"><div><h1>FAQ</h1><p>Perguntas frequentes</p></div></div>
+
+      <div class="card">
+        <div class="dynamic-list" id="faq-list-admin"></div>
+        <button class="btn-add-item" onclick="addFaq()">+ Adicionar pergunta</button>
+      </div>
+    </div>
+
+    <!-- CONTATO -->
+    <div class="tab-panel hidden" id="tab-contato">
+      <div class="topbar"><div><h1>WhatsApp & Links</h1><p>Contato</p></div></div>
+
+      <div class="card">
+        <div class="form-group form-full">
+          <label>Número WhatsApp (com DDI)</label>
+          <div class="input-prefix">
+            <span>+</span>
+            <input type="text" id="whatsappNumber" placeholder="5511999999999"/>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <div class="save-bar">
+    <p class="save-bar-text" id="save-status">Edite os campos acima e salve</p>
+    <div style="display:flex; gap:12px; align-items:center;">
+      <button class="btn btn-secondary" onclick="loadConfig()">↺ Reverter</button>
+      <button class="btn btn-primary" id="save-btn" onclick="saveConfig()">
+        <span id="save-label">Salvar Alterações</span>
+        <span class="spinner hidden" id="save-spinner"></span>
+      </button>
+    </div>
+  </div>
+
+</div>
+
+<!-- FIREBASE JS -->
+<script type="module">
+  import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+  import { getFirestore, doc, getDoc, setDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+  import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCf6LxQ5a9BPxew-QWoB4O6Z9c-BhodKXI",
+    authDomain: "rastrek-5f2f9.firebaseapp.com",
+    projectId: "rastrek-5f2f9",
+    storageBucket: "rastrek-5f2f9.firebasestorage.app",
+    messagingSenderId: "224601800025",
+    appId: "1:224601800025:web:54fcfe55c3852b92c6a048"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+  const auth = getAuth(app);
+
+  // ── CONFIGURAÇÃO OFICIAL DO CLOUDINARY ──
+  const CLOUDINARY_CLOUD_NAME = "wqzty38l"; 
+  const CLOUDINARY_UPLOAD_PRESET = "rastrek"; 
+
+  window.openCloudinaryWidget = function() {
+    if (typeof cloudinary === 'undefined') {
+      alert('O SDK do Cloudinary ainda está carregando. Tente novamente em alguns segundos.');
+      return;
+    }
+
+    const myWidget = cloudinary.createUploadWidget({
+      cloudName: CLOUDINARY_CLOUD_NAME, 
+      uploadPreset: CLOUDINARY_UPLOAD_PRESET,
+      sources: ['local', 'url', 'camera'],
+      resourceType: 'video',
+      multiple: false,
+      styles: {
+        palette: {
+          window: "#111111",
+          sourceBg: "#1A1A1A",
+          windowBorder: "#F97316",
+          tabIcon: "#F97316",
+          inactiveTabIcon: "#888888",
+          menuIcons: "#F97316",
+          link: "#F97316",
+          action: "#F97316",
+          inProgress: "#28a745",
+          complete: "#28a745",
+          error: "#EF4444",
+          textDark: "#000000",
+          textLight: "#FFFFFF"
+        }
+      }
+    }, (error, result) => {
+      if (!error && result && result.event === "success") {
+        const urlSegura = result.info.secure_url;
+        document.getElementById('videoUrl').value = urlSegura;
+        showToast('Vídeo enviado com sucesso!', 'success');
+      }
+    });
+
+    myWidget.open();
+  };
+
+  // ── AUTH ──
+  onAuthStateChanged(auth, user => {
+    if (user) {
+      document.getElementById('login-screen').classList.add('hidden');
+      document.getElementById('admin-wrap').classList.remove('hidden');
+      loadConfig();
+    } else {
+      document.getElementById('login-screen').classList.remove('hidden');
+      document.getElementById('admin-wrap').classList.add('hidden');
+    }
+  });
+
+  window.doLogin = async function() {
+    const email = document.getElementById('login-email').value.trim();
+    const pass = document.getElementById('login-password').value;
+    const label = document.getElementById('login-label');
+    const spinner = document.getElementById('login-spinner');
+    const error = document.getElementById('login-error');
+
+    if (!email || !pass) { error.textContent = 'Preencha e-mail e senha.'; return; }
+
+    label.classList.add('hidden'); spinner.classList.remove('hidden');
+    error.textContent = '';
+
+    try {
+      await signInWithEmailAndPassword(auth, email, pass);
+    } catch (e) {
+      error.textContent = 'Erro ao entrar. Credenciais inválidas.';
+    } finally {
+      label.classList.remove('hidden'); spinner.classList.add('hidden');
+    }
+  };
+
+  window.doLogout = async function() { await signOut(auth); };
+
+  document.getElementById('login-password').addEventListener('keydown', e => {
+    if (e.key === 'Enter') window.doLogin();
+  });
+
+  // ── DADOS PADRÃO ──
+  const defaults = {
+    price: "289", 
+    monthlyPrice: "39.90",
+    originalPrice: "499",
+    stripeUrl: "https://buy.stripe.com/test_dRm14fap358P8KYb8z4wM00",
+    videoUrl: "",
+    heroTitle: "Saiba onde seu carro está<br/><em>a qualquer hora, de qualquer lugar</em>",
+    heroSubtitle: "O menor rastreador GPS do Brasil. Do tamanho de uma moeda — instalação silenciosa em segundos.",
+    ctaText: "QUERO MEU RASTREK AGORA →",
+    urgencyText: "Restam apenas 47 unidades no estoque!",
+    whatsappNumber: "5511999999999",
+    testimonials: [
+      { name: "Carlos M.", city: "São Paulo, SP", text: "Meu carro foi roubado há dois anos. Depois do Rastrek, fiquei tranquilo. Localização precisa e app fácil.", stars: 5 }
+    ],
+    faqItems: [
+      { q: "Precisa de instalação profissional?", a: "Não! O Rastrek é plug and play. Retire a película e fixe. Leva menos de 2 minutos." }
+    ]
+  };
+
+  // ── CARREGAR CONFIG ──
+  window.loadConfig = async function() {
+    let config = { ...defaults };
+    try {
+      const snap = await getDoc(doc(db, 'site_config', 'main'));
+      if (snap.exists()) config = { ...defaults, ...snap.data() };
+    } catch (e) { console.warn('Firebase não configurado:', e); }
+
+    populateForm(config);
+    updateDashboard(config);
+    document.getElementById('save-status').textContent = 'Dados carregados do Firebase';
+  };
+
+  function populateForm(c) {
+    const set = (id, val) => { const el = document.getElementById(id); if (el && val != null) el.value = val; };
+    set('price', c.price);
+    set('monthlyPrice', c.monthlyPrice);
+    set('originalPrice', c.originalPrice);
+    set('stripeUrl', c.stripeUrl);
+    set('videoUrl', c.videoUrl);
+    set('ctaText', c.ctaText);
+    set('urgencyText', c.urgencyText);
+    set('heroTitle', c.heroTitle);
+    set('heroSubtitle', c.heroSubtitle);
+    set('whatsappNumber', c.whatsappNumber);
+
+    const tList = document.getElementById('testimonials-list');
+    tList.innerHTML = '';
+    (c.testimonials || []).forEach((t, i) => addTestimonialRow(t, i));
+
+    const fList = document.getElementById('faq-list-admin');
+    fList.innerHTML = '';
+    (c.faqItems || []).forEach((f, i) => addFaqRow(f, i));
+  }
+
+  function updateDashboard(c) {
+    document.getElementById('dash-price').textContent = `R$ ${c.price || '289'}`;
+    document.getElementById('dash-monthly').textContent = `R$ ${c.monthlyPrice || '39.90'}/mês`;
+    document.getElementById('dash-testimonials').textContent = (c.testimonials || []).length;
+    if (c.updatedAt?.toDate) {
+      document.getElementById('dash-updated').textContent = c.updatedAt.toDate().toLocaleDateString('pt-BR');
+    } else {
+      document.getElementById('dash-updated').textContent = 'Nunca';
+    }
+  }
+
+  // ── SALVAR ──
+  window.saveConfig = async function() {
+    const label = document.getElementById('save-label');
+    const spinner = document.getElementById('save-spinner');
+    label.classList.add('hidden'); spinner.classList.remove('hidden');
+
+    const testimonials = Array.from(document.querySelectorAll('.t-row')).map(row => ({
+      name: row.querySelector('.t-name').value.trim(),
+      city: row.querySelector('.t-city').value.trim(),
+      text: row.querySelector('.t-text').value.trim(),
+      stars: parseInt(row.querySelector('.t-stars').value) || 5,
+    })).filter(t => t.name && t.text);
+
+    const faqItems = Array.from(document.querySelectorAll('.f-row')).map(row => ({
+      q: row.querySelector('.f-q').value.trim(),
+      a: row.querySelector('.f-a').value.trim(),
+    })).filter(f => f.q && f.a);
+
+    const config = {
+      price: document.getElementById('price').value || '289',
+      monthlyPrice: document.getElementById('monthlyPrice').value || '39.90',
+      originalPrice: document.getElementById('originalPrice').value || '499',
+      stripeUrl: document.getElementById('stripeUrl').value.trim() || 'https://buy.stripe.com/test_dRm14fap358P8KYb8z4wM00',
+      videoUrl: document.getElementById('videoUrl').value.trim(),
+      ctaText: document.getElementById('ctaText').value || 'QUERO MEU RASTREK AGORA →',
+      urgencyText: document.getElementById('urgencyText').value || '',
+      heroTitle: document.getElementById('heroTitle').value || '',
+      heroSubtitle: document.getElementById('heroSubtitle').value || '',
+      whatsappNumber: document.getElementById('whatsappNumber').value || '',
+      testimonials,
+      faqItems,
+      updatedAt: serverTimestamp(),
+    };
+
+    try {
+      await setDoc(doc(db, 'site_config', 'main'), config);
+      showToast('Alterações salvas com sucesso!', 'success');
+      document.getElementById('save-status').textContent = 'Salvo agora mesmo ✓';
+      updateDashboard({ ...config, testimonials, faqItems });
+    } catch (e) {
+      showToast('Erro ao salvar no Firebase.', 'error');
+      console.error(e);
+    } finally {
+      label.classList.remove('hidden'); spinner.classList.add('hidden');
+    }
+  };
+
+  // ── DEPOIMENTOS ──
+  window.addTestimonial = function() { addTestimonialRow({}, document.querySelectorAll('.t-row').length); };
+  function addTestimonialRow(t = {}, i = 0) {
+    const list = document.getElementById('testimonials-list');
+    const div = document.createElement('div');
+    div.className = 'dynamic-item t-row';
+    div.innerHTML = `
+      <div class="dynamic-item-fields">
+        <div style="display:grid;grid-template-columns:1fr 1fr 80px;gap:8px;">
+          <input class="t-name" placeholder="Nome do cliente" value="${t.name || ''}"/>
+          <input class="t-city" placeholder="Cidade, UF" value="${t.city || ''}"/>
+          <select class="t-stars" style="background:var(--surface3);border:1px solid var(--border);border-radius:6px;color:var(--text);padding:8px;font-family:var(--font);font-size:0.85rem;">
+            <option value="5" ${(t.stars||5)==5?'selected':''}>★★★★★</option>
+            <option value="4" ${t.stars==4?'selected':''}>★★★★☆</option>
+            <option value="3" ${t.stars==3?'selected':''}>★★★☆☆</option>
+          </select>
+        </div>
+        <textarea class="t-text" rows="2" placeholder="Texto do depoimento...">${t.text || ''}</textarea>
+      </div>
+      <button class="btn-remove" onclick="this.closest('.t-row').remove()">✕</button>`;
+    list.appendChild(div);
+  }
+
+  // ── FAQ ──
+  window.addFaq = function() { addFaqRow({}, document.querySelectorAll('.f-row').length); };
+  function addFaqRow(f = {}, i = 0) {
+    const list = document.getElementById('faq-list-admin');
+    const div = document.createElement('div');
+    div.className = 'dynamic-item f-row';
+    div.innerHTML = `
+      <div class="dynamic-item-fields">
+        <input class="f-q" placeholder="Pergunta..." value="${f.q || ''}"/>
+        <textarea class="f-a" rows="2" placeholder="Resposta...">${f.a || ''}</textarea>
+      </div>
+      <button class="btn-remove" onclick="this.closest('.f-row').remove()">✕</button>`;
+    list.appendChild(div);
+  }
+
+  // ── TABS ──
+  window.switchTab = function(tab) {
+    document.querySelectorAll('.tab-panel').forEach(p => { p.classList.remove('active'); p.classList.add('hidden'); });
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    document.getElementById(`tab-${tab}`).classList.remove('hidden');
+    document.getElementById(`tab-${tab}`).classList.add('active');
+    event.currentTarget.classList.add('active');
+  };
+
+  // ── TOAST ──
+  function showToast(msg, type = 'success') {
+    const toast = document.getElementById('toast');
+    document.getElementById('toast-msg').textContent = msg;
+    toast.className = `toast ${type} show`;
+    setTimeout(() => toast.className = `toast ${type}`, 3500);
+  }
+</script>
+
+</body>
+</html>
