@@ -501,22 +501,52 @@
   const db = getFirestore(app);
   const auth = getAuth(app);
 
-  // ── CONFIGURAÇÃO DO UPLOAD CLOUDINARY ──
+  // ── CONFIGURAÇÃO OFICIAL DO CLOUDINARY COM CARREGAMENTO FLUIDO ──
   const CLOUDINARY_CLOUD_NAME = "wqzty38l"; 
   const CLOUDINARY_UPLOAD_PRESET = "rastrek"; 
 
+  // Variável para controlar tentativas automáticas
+  let cloudinaryLoadingInterval = null;
+
   window.openCloudinaryWidget = function(targetInputId) {
+    const btn = event ? event.currentTarget : null;
+
+    // Se o SDK do Cloudinary ainda não baixou da internet, aguarda silenciosamente
     if (typeof cloudinary === 'undefined' || !cloudinary.createUploadWidget) {
-      alert('O SDK do Cloudinary ainda está carregando. Aguarde 3 segundos e clique novamente.');
+      if (btn) {
+        btn.dataset.originalText = btn.innerHTML;
+        btn.innerHTML = '⏳ A carregar módulo...';
+        btn.disabled = true;
+      }
+
+      showToast('A preparar o leitor de envio... Por favor aguarde um segundo.', 'success');
+
+      // Tenta abrir automaticamente assim que o download terminar
+      clearInterval(cloudinaryLoadingInterval);
+      cloudinaryLoadingInterval = setInterval(() => {
+        if (typeof cloudinary !== 'undefined' && cloudinary.createUploadWidget) {
+          clearInterval(cloudinaryLoadingInterval);
+          if (btn) {
+            btn.innerHTML = btn.dataset.originalText || '📁 Enviar Vídeo (Cloudinary)';
+            btn.disabled = false;
+          }
+          // Abre a janela automaticamente!
+          window.openCloudinaryWidget(targetInputId);
+        }
+      }, 300);
+
       return;
     }
 
+    // Se o Cloudinary já está pronto na memória, abre a janela de upload imediatamente
     const myWidget = cloudinary.createUploadWidget({
       cloudName: CLOUDINARY_CLOUD_NAME, 
       uploadPreset: CLOUDINARY_UPLOAD_PRESET,
       sources: ['local', 'url', 'camera'],
       resourceType: 'video',
       multiple: false,
+      clientAllowedFormats: ['mp4', 'mov', 'avi', 'webm'], // Aceita os formatos principais de vídeo
+      maxFileSize: 100000000, // Limite de 100MB por vídeo
       styles: {
         palette: {
           window: "#111111",
@@ -537,8 +567,14 @@
     }, (error, result) => {
       if (!error && result && result.event === "success") {
         const urlSegura = result.info.secure_url;
-        document.getElementById(targetInputId).value = urlSegura;
-        showToast('Vídeo enviado com sucesso!', 'success');
+        
+        // Atribui o link do vídeo ao campo de texto correspondente
+        const inputTarget = document.getElementById(targetInputId);
+        if (inputTarget) {
+          inputTarget.value = urlSegura;
+        }
+
+        showToast('Vídeo enviado e anexado com sucesso!', 'success');
       }
     });
 
