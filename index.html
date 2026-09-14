@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Rastrek — Segurança Sempre Com Você</title>
-  <meta name="description" content="O menor rastreador GPS do Brasil. Saiba onde seus veículos, pets, crianças e pertences estão em tempo real, direto no seu celular." />
+  <title>TAG Rastrek | Segurança que acompanha você</title>
+  <meta name="description" content="A solução simples e inteligente que protege o que é seu. Mais segurança para seus bens, sem instalação elétrica e com acompanhamento pelo celular." />
   
   <!-- FONTS & LEAFLET MAP CSS -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -15,9 +15,11 @@
   <style>
     /* ── TOKENS DE DESIGN ── */
     :root {
-      --orange: #F97316;
-      --orange-dim: #C05E10;
-      --orange-glow: rgba(249,115,22,0.18);
+      /* NOVA COR PRINCIPAL */
+      --orange: #ffd229;
+      --orange-dim: #cca821;
+      --orange-glow: rgba(255, 210, 41, 0.18);
+      
       --black: #080808;
       --surface: #111111;
       --surface2: #1A1A1A;
@@ -140,12 +142,12 @@
       border-radius: 16px;
       user-select: none;
       -webkit-user-drag: none;
-      filter: drop-shadow(0 25px 25px rgba(0,0,0,.55)) drop-shadow(0 5px 8px rgba(255,166,0,.12));
+      filter: drop-shadow(0 25px 25px rgba(0,0,0,.55)) drop-shadow(0 5px 8px rgba(255,210,41,.12));
       transition: filter .25s ease;
     }
 
     .tag-card:hover .tag-image {
-      filter: drop-shadow(0 35px 35px rgba(0,0,0,.7)) drop-shadow(0 0 18px rgba(255,166,0,.25));
+      filter: drop-shadow(0 35px 35px rgba(0,0,0,.7)) drop-shadow(0 0 18px rgba(255,210,41,.25));
     }
 
     .product-badge {
@@ -153,7 +155,7 @@
       background: var(--orange); color: #000;
       font-weight: 800; font-size: 0.75rem;
       padding: 8px 14px; border-radius: 100px;
-      box-shadow: 0 4px 20px rgba(249,115,22,0.5);
+      box-shadow: 0 4px 20px rgba(255,210,41,0.5);
       z-index: 10;
       pointer-events: none;
     }
@@ -175,7 +177,7 @@
     .price-subscription {
       font-size: 1.1rem; color: var(--orange); font-weight: 700;
       background: var(--orange-glow); padding: 6px 18px; border-radius: 20px;
-      border: 1px solid rgba(249,115,22,0.3); margin-top: 6px;
+      border: 1px solid rgba(255,210,41,0.3); margin-top: 6px;
     }
 
     .btn-cta {
@@ -185,13 +187,13 @@
       font-size: clamp(0.95rem, 2vw, 1.1rem);
       padding: 18px 44px; border-radius: 10px;
       text-decoration: none;
-      box-shadow: 0 6px 30px rgba(249,115,22,0.45);
+      box-shadow: 0 6px 30px rgba(255,210,41,0.45);
       transition: transform 0.15s, box-shadow 0.15s;
       border: none; cursor: pointer; font-family: var(--font);
     }
     .btn-cta:hover {
       transform: translateY(-2px);
-      box-shadow: 0 10px 40px rgba(249,115,22,0.6);
+      box-shadow: 0 10px 40px rgba(255,210,41,0.6);
     }
     .btn-cta:active { transform: translateY(0); }
 
@@ -268,7 +270,7 @@
       border-radius: 16px;
       overflow: hidden;
       border: 1px solid var(--border);
-      box-shadow: 0 20px 50px rgba(0,0,0,0.8), 0 0 30px rgba(249,115,22,0.15);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.8), 0 0 30px rgba(255,210,41,0.15);
       position: relative;
     }
     #map {
@@ -278,13 +280,13 @@
     }
     .pulse-marker { position: relative; width: 20px; height: 20px; }
     .pulse-core {
-      width: 20px; height: 20px; background: #ff6600;
-      border-radius: 50%; border: 3px solid #ffaa00;
-      position: relative; z-index: 2; box-shadow: 0 0 15px #ff6600;
+      width: 20px; height: 20px; background: #ffd229;
+      border-radius: 50%; border: 3px solid #ffea77;
+      position: relative; z-index: 2; box-shadow: 0 0 15px #ffd229;
     }
     .pulse-wave {
       position: absolute; top: 50%; left: 50%;
-      width: 20px; height: 20px; background: rgba(255, 102, 0, 0.6);
+      width: 20px; height: 20px; background: rgba(255, 210, 41, 0.6);
       border-radius: 50%; transform: translate(-50%, -50%);
       animation: pulse 2s ease-out infinite; z-index: 1;
     }
@@ -329,19 +331,19 @@
     }
     .tag-center img {
       width: 100%; height: 100%; object-fit: contain;
-      filter: drop-shadow(0 0 30px rgba(255, 102, 0, 0.6));
+      filter: drop-shadow(0 0 30px rgba(255, 210, 41, 0.6));
       animation: tag-glow 2s ease-in-out infinite;
     }
     @keyframes tag-glow {
-      0%, 100% { filter: drop-shadow(0 0 20px rgba(255, 102, 0, 0.4)); }
-      50% { filter: drop-shadow(0 0 50px rgba(255, 102, 0, 0.9)); }
+      0%, 100% { filter: drop-shadow(0 0 20px rgba(255, 210, 41, 0.4)); }
+      50% { filter: drop-shadow(0 0 50px rgba(255, 210, 41, 0.9)); }
     }
 
     /* Ondas de sinal */
     .signal-ring {
       position: absolute; top: 50%; left: 50%;
       transform: translate(-50%, -50%);
-      border: 2px solid rgba(255, 102, 0, 0.4);
+      border: 2px solid rgba(255, 210, 41, 0.4);
       border-radius: 50%;
       animation: signal-expand 3s ease-out infinite;
     }
@@ -354,7 +356,7 @@
       100% { transform: translate(-50%, -50%) scale(1.3); opacity: 0; }
     }
 
-    /* Situações ao redor (Crianças, Pets, etc) - Textos Fora da Caixa */
+    /* Situações ao redor */
     .situation-wrapper {
       position: absolute;
       display: flex; flex-direction: column; align-items: center; gap: 8px;
@@ -363,16 +365,16 @@
     .situation-box {
       width: 100px; height: 100px;
       background: rgba(15, 15, 15, 0.95);
-      border: 2px solid #ff6600; border-radius: 20px;
+      border: 2px solid #ffd229; border-radius: 20px;
       display: flex; flex-direction: column; align-items: center; justify-content: center;
       transition: all 0.3s ease;
     }
     .situation-wrapper:hover .situation-box {
-      transform: scale(1.15); border-color: #ffaa00;
-      box-shadow: 0 0 30px rgba(255, 102, 0, 0.6);
+      transform: scale(1.15); border-color: #ffea77;
+      box-shadow: 0 0 30px rgba(255, 210, 41, 0.6);
     }
     .situation-icon { font-size: 32px; line-height: 1.2; text-align: center; margin-bottom: 4px; }
-    .situation-label { color: #ffaa00; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+    .situation-label { color: #ffd229; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
     .situation-desc { color: #888; font-size: 13px; text-align: center; white-space: nowrap; font-weight: 500; }
 
     /* Posições */
@@ -389,7 +391,7 @@
     /* Linhas de conexão */
     .connection {
       position: absolute; top: 50%; left: 50%; height: 2px; width: 120px;
-      background: linear-gradient(90deg, rgba(255, 102, 0, 0.8), rgba(255, 170, 0, 0.3));
+      background: linear-gradient(90deg, rgba(255, 210, 41, 0.8), rgba(255, 210, 41, 0.3));
       transform-origin: left center; animation: connection-pulse 2s ease-in-out infinite;
     }
     .conn-pet { transform: translate(-50%, -50%) rotate(-90deg) translateX(90px); }
@@ -406,7 +408,7 @@
     .features-img img { width: 100%; max-width: 400px; display: block; filter: drop-shadow(0 20px 30px rgba(0,0,0,0.6)); }
     .feature-list { display: flex; flex-direction: column; gap: 24px; margin-top: 36px; }
     .feature-item { display: flex; gap: 16px; align-items: flex-start; }
-    .feature-icon { width: 44px; height: 44px; flex-shrink: 0; background: var(--orange-glow); border: 1px solid rgba(249,115,22,0.3); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: var(--orange); }
+    .feature-icon { width: 44px; height: 44px; flex-shrink: 0; background: var(--orange-glow); border: 1px solid rgba(255,210,41,0.3); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: var(--orange); }
     .feature-item h4 { font-size: 1rem; font-weight: 700; margin-bottom: 6px; }
     .feature-item p { font-size: 0.9rem; color: var(--muted); }
 
@@ -460,7 +462,7 @@
     .whatsapp-float svg { width: 28px; height: 28px; fill: #fff; }
 
     /* ── ANIMAÇÃO DE PULSO BOTÃO CTA ── */
-    @keyframes pulse-orange { 0%, 100% { box-shadow: 0 6px 30px rgba(249,115,22,0.45); } 50% { box-shadow: 0 6px 50px rgba(249,115,22,0.75); } }
+    @keyframes pulse-orange { 0%, 100% { box-shadow: 0 6px 30px rgba(255,210,41,0.45); } 50% { box-shadow: 0 6px 50px rgba(255,210,41,0.75); } }
     .btn-cta { animation: pulse-orange 2.5s ease-in-out infinite; }
     .btn-cta:hover { animation: none; }
     .hidden { display: none !important; }
@@ -472,26 +474,26 @@
 <nav class="nav">
   <div class="nav-logo">
     <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="18" cy="18" r="17" stroke="#F97316" stroke-width="2"/>
-      <path d="M18 8C18 8 10 14 10 21a8 8 0 0016 0c0-7-8-13-8-13z" fill="#F97316"/>
+      <circle cx="18" cy="18" r="17" stroke="#ffd229" stroke-width="2"/>
+      <path d="M18 8C18 8 10 14 10 21a8 8 0 0016 0c0-7-8-13-8-13z" fill="#ffd229"/>
       <circle cx="18" cy="21" r="3" fill="#080808"/>
     </svg>
-    Rast<span>rek</span>
+    Rastrek
   </div>
   <a href="https://buy.stripe.com/test_dRm14fap358P8KYb8z4wM00" class="nav-cta" id="nav-cta-btn">Comprar Agora</a>
 </nav>
 
 <!-- HERO SECTION -->
 <section class="hero text-center">
-  <div class="hero-tag">🛰️ Rastreamento GPS em Tempo Real</div>
+  <div class="hero-tag">🛰️ Proteção inteligente para o que importa</div>
 
-  <h1 id="hero-title">Saiba onde está o que mais importa<br /><em>a qualquer hora, de qualquer lugar</em></h1>
-  <p class="hero-sub" id="hero-subtitle">O menor rastreador GPS do Brasil. Do tamanho de uma moeda — proteção discreta para veículos, pets, crianças e pertences.</p>
+  <h1 id="hero-title">A solução simples e inteligente<br /><em>que protege o que é seu</em></h1>
+  <p class="hero-sub" id="hero-subtitle">Mais segurança para seus bens, sem instalação elétrica e com acompanhamento pelo celular. Ideal para carros, motos, mochilas e objetos de valor.</p>
 
   <!-- PRODUTO 3D INTERATIVO -->
   <div class="tag-container">
     <div class="tag-card" id="tagCard">
-      <div class="product-badge" id="product-badge">COMPACTO<br/>3,2cm</div>
+      <div class="product-badge" id="product-badge">DISCRETA E<br/>PORTÁTIL</div>
       <img src="tag-rastrek.png" alt="Tag Rastrek" class="tag-image" id="tagImage" onerror="this.style.display='none'" />
     </div>
   </div>
@@ -502,13 +504,13 @@
     <div class="price-subscription">+ <span id="monthly-price-val">R$ 39,90</span> / mês (Assinatura GPS)</div>
   </div>
 
-  <a href="https://buy.stripe.com/test_dRm14fap358P8KYb8z4wM00" class="btn-cta" id="main-cta-btn">QUERO MEU RASTREK AGORA →</a>
-  <p class="urgency-line" id="urgency-text">Restam apenas 47 unidades no estoque!</p>
+  <a href="https://buy.stripe.com/test_dRm14fap358P8KYb8z4wM00" class="btn-cta" id="main-cta-btn">QUERO MINHA TAG AGORA →</a>
+  <p class="urgency-line" id="urgency-text">Oferta por tempo limitado!</p>
 
   <div class="trust-row">
     <div class="trust-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Compra 100% segura</div>
     <div class="trust-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h4l3 4v3h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg> Entrega para todo Brasil</div>
-    <div class="trust-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Garantia de 12 meses</div>
+    <div class="trust-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Garantia de qualidade</div>
     <div class="trust-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg> Suporte via WhatsApp</div>
   </div>
 </section>
@@ -516,27 +518,25 @@
 <!-- 1. VÍDEO DEMONSTRATIVO ACIMA DO MAPA -->
 <section class="video-section hidden text-center" id="video-section-1">
   <p class="section-label">Demonstração</p>
-  <h2 class="section-title">Veja o Rastrek em Ação</h2>
+  <h2 class="section-title">Veja a TAG Rastrek em Ação</h2>
   <div class="video-container" id="video-wrapper-1"></div>
 </section>
 
 <!-- SEÇÃO MAPA INTERATIVO COM PULSO GPS -->
-<section class="map-section text-left">
-  <div style="max-width: 1000px; margin: 0 auto;">
-    <p class="section-label text-left">Tecnologia de Precisão</p>
-    <h2 class="section-title text-left">Localização em Tempo Real</h2>
-    <p class="section-sub text-left" style="color:var(--muted)">Acompanhe o sinal GPS ativo direto no mapa. Atualização contínua com máxima precisão.</p>
-  </div>
+<section class="map-section text-center">
+  <p class="section-label text-center">Tecnologia Confiável</p>
+  <h2 class="section-title text-center">Localização em Tempo Real</h2>
+  <p class="section-sub text-center" style="margin: 0 auto; color:var(--muted)">Acompanhe o sinal direto no mapa pelo aplicativo. Receba alertas e tenha mais controle na palma da sua mão.</p>
   
   <div class="map-wrapper">
     <div id="map"></div>
   </div>
 </section>
 
-<!-- SEÇÃO PROTEÇÃO COMPLETA (RADAR COM TEXTOS EXTERNOS) -->
+<!-- SEÇÃO PROTEÇÃO COMPLETA (RADAR COM TEXTOS FORA DA CAIXA) -->
 <section class="protection-section text-center">
   <p class="section-label text-center">Proteção Multiuso</p>
-  <h2 class="section-title text-center" style="color:#ff6600;">Rastrek</h2>
+  <h2 class="section-title text-center" style="color:var(--orange);">TAG Rastrek</h2>
   <p class="section-sub text-center" style="margin: 0 auto; color:#aaa;">Proteção completa para o que mais importa</p>
 
   <div class="radar-wrapper">
@@ -591,7 +591,7 @@
           <div class="situation-icon">👤</div>
           <div class="situation-label">Pessoas</div>
         </div>
-        <div class="situation-desc">Botão de pânico</div>
+        <div class="situation-desc">Segurança Pessoal</div>
       </div>
     </div>
   </div>
@@ -601,41 +601,41 @@
 <section class="features text-left" id="produto">
   <div class="features-inner">
     <div class="features-img">
-      <img src="tag-rastrek.png" alt="Rastrek em funcionamento" />
+      <img src="tag-rastrek.png" alt="TAG Rastrek em funcionamento" />
     </div>
 
     <div>
       <p class="section-label text-left">O produto</p>
-      <h2 class="section-title text-left">Pequeno no tamanho.<br/>Grande na proteção.</h2>
-      <p class="section-sub text-left">Com apenas 3,2 cm — menor que uma moeda — o Rastrek se esconde onde você quiser.</p>
+      <h2 class="section-title text-left">Discreta e portátil.<br/>Grande na proteção.</h2>
+      <p class="section-sub text-left">A TAG Rastrek é um auxiliar localizador sem fios e sem instalação. Se esconde facilmente onde você precisar.</p>
 
       <div class="feature-list">
         <div class="feature-item">
-          <div class="feature-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg></div>
+          <div class="feature-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
           <div>
-            <h4>Sinal GPS + GSM + Wi-Fi</h4>
-            <p>Tripla tecnologia garante localização precisa mesmo em áreas de sinal fraco.</p>
+            <h4>Sem instalação elétrica</h4>
+            <p>É só posicionar e usar. A TAG Rastrek não precisa de fios ou modificações no seu veículo.</p>
           </div>
         </div>
         <div class="feature-item">
           <div class="feature-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"/></svg></div>
           <div>
-            <h4>Alerta de movimento</h4>
-            <p>Notificação imediata no seu celular quando o item monitorado é movimentado.</p>
+            <h4>Acompanhamento pelo aplicativo</h4>
+            <p>Veja a localização no mapa em tempo real, receba alertas e tenha mais controle na palma da mão.</p>
           </div>
         </div>
         <div class="feature-item">
           <div class="feature-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-4 0v2M12 12v4"/><circle cx="12" cy="12" r="1" fill="currentColor"/></svg></div>
           <div>
-            <h4>Bateria de longa duração</h4>
-            <p>Até 30 dias de funcionamento contínuo sem recarga. Ideal para uso permanente.</p>
+            <h4>Bateria de até 2 anos</h4>
+            <p>Duração prolongada que pode chegar a 2 anos, com fácil substituição de bateria quando necessário.</p>
           </div>
         </div>
         <div class="feature-item">
-          <div class="feature-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+          <div class="feature-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg></div>
           <div>
-            <h4>IP67 — Resistente à água</h4>
-            <p>Funciona na chuva, no sol e em qualquer condição. Construído para durar.</p>
+            <h4>Portátil e transferível</h4>
+            <p>Discreta, leve e fácil de ocultar. Leve a TAG em diferentes bens sempre que precisar.</p>
           </div>
         </div>
       </div>
@@ -647,31 +647,31 @@
 <section class="how text-left">
   <div class="how-inner">
     <p class="section-label text-left">Como funciona</p>
-    <h2 class="section-title text-left">Proteção em 3 passos simples</h2>
-    <p class="section-sub text-left">Sem instalação técnica. Sem complicação. Você mesmo coloca em minutos.</p>
+    <h2 class="section-title text-left">Simples do início ao fim</h2>
+    <p class="section-sub text-left">Sem instalação técnica. Sem complicação. Você mesmo resolve tudo em minutos.</p>
 
     <div class="how-grid">
       <div class="how-card">
         <div class="how-num">01</div>
-        <h3>Receba e instale</h3>
-        <p>O Rastrek chega na sua casa. Fixe no veículo, coleira do pet, mochila ou mala — ele é magnético e compacto.</p>
+        <h3>Posicione a TAG</h3>
+        <p>Fixe ou oculte a TAG no bem que deseja proteger. Sem necessidades de fios ou instalação elétrica.</p>
       </div>
       <div class="how-card">
         <div class="how-num">02</div>
-        <h3>Baixe o app</h3>
-        <p>Disponível para Android e iOS. Faça login com o código da caixa e vincule ao dispositivo em segundos.</p>
+        <h3>Ative na plataforma</h3>
+        <p>Baixe o aplicativo Rastrek, cadastre sua TAG em poucos passos e inicie o monitoramento.</p>
       </div>
       <div class="how-card">
         <div class="how-num">03</div>
-        <h3>Rastreie em tempo real</h3>
-        <p>Veja a localização exata 24h por dia. Receba alertas automáticos de movimentação suspeita.</p>
+        <h3>Acompanhe a localização</h3>
+        <p>Veja a posição no mapa em tempo real pelo celular, receba alertas e transfira a TAG para outro bem sempre que quiser.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- 2. VÍDEO DEMONSTRATIVO ACIMA DOS DEPOIMENTOS -->
-<section class="video-section hidden text-center" id="video-section-2" style="background:var(--surface2);">
+<!-- 2. VÍDEO DEMONSTRATIVO ACIMA DE QUEM JÁ USA -->
+<section class="video-section hidden text-center" id="video-section-2" style="background:var(--surface);">
   <p class="section-label">Funciona mesmo?</p>
   <h2 class="section-title">Confira na prática</h2>
   <div class="video-container" id="video-wrapper-2"></div>
@@ -681,7 +681,7 @@
 <section class="testimonials text-left">
   <div class="testimonials-inner">
     <p class="section-label text-left">Quem já usa</p>
-    <h2 class="section-title text-left">Mais de 3.000 pessoas e veículos<br/>protegidos no Brasil</h2>
+    <h2 class="section-title text-left">Mais de 3.000 veículos e bens<br/>protegidos no Brasil</h2>
 
     <div class="testimonials-grid" id="testimonials-grid"></div>
   </div>
@@ -700,8 +700,8 @@
 <!-- CTA FINAL -->
 <section class="cta-final text-center" id="comprar">
   <p class="section-label text-center">Garanta o seu</p>
-  <h2 class="section-title text-center" id="cta-title">Proteja o que mais importa<br/>ainda hoje</h2>
-  <p class="section-sub text-center" id="cta-sub">Frete grátis para todo Brasil. Pagamento seguro pelo Stripe. Entrega em até 7 dias úteis.</p>
+  <h2 class="section-title text-center" id="cta-title">Não espere acontecer um imprevisto</h2>
+  <p class="section-sub text-center" id="cta-sub">Proteja seus bens com uma solução prática, discreta e sem complicação.</p>
 
   <div class="price-block">
     <div class="price-original">De R$ <span class="orig-price-ref">499</span></div>
@@ -709,21 +709,22 @@
     <div class="price-subscription">+ <span class="monthly-price-ref">R$ 39,90</span> / mês</div>
   </div>
 
-  <a href="https://buy.stripe.com/test_dRm14fap358P8KYb8z4wM00" class="btn-cta" id="final-cta-btn">QUERO MEU RASTREK AGORA →</a>
-  <p class="urgency-line" id="urgency-text-2">Restam apenas 47 unidades no estoque!</p>
+  <a href="https://buy.stripe.com/test_dRm14fap358P8KYb8z4wM00" class="btn-cta" id="final-cta-btn">QUERO MINHA TAG AGORA →</a>
+  <p class="urgency-line" id="urgency-text-2">Oferta por tempo limitado!</p>
 
   <div class="guarantee-row">
     <div class="guarantee-item"><div class="guarantee-icon">🔒</div><div>Pagamento<br/>100% Seguro</div></div>
-    <div class="guarantee-item"><div class="guarantee-icon">🚚</div><div>Frete Grátis<br/>Todo Brasil</div></div>
-    <div class="guarantee-item"><div class="guarantee-icon">✅</div><div>Garantia<br/>12 Meses</div></div>
+    <div class="guarantee-item"><div class="guarantee-icon">🚚</div><div>Envio Para<br/>Todo Brasil</div></div>
+    <div class="guarantee-item"><div class="guarantee-icon">✅</div><div>Garantia de<br/>Qualidade</div></div>
     <div class="guarantee-item"><div class="guarantee-icon">💬</div><div>Suporte<br/>WhatsApp</div></div>
   </div>
 </section>
 
 <!-- FOOTER -->
 <footer>
-  <p style="margin-bottom:8px;"><strong>Rastrek</strong> — Segurança Sempre Com Você</p>
-  <p>© 2026 Rastrek. Todos os direitos reservados.</p>
+  <p style="margin-bottom:8px;"><strong>TAG Rastrek</strong> — Segurança que acompanha você</p>
+  <p>contato@rastrek.com.br</p>
+  <p>© 2026 TAG Rastrek. Todos os direitos reservados.</p>
 </footer>
 
 <!-- WHATSAPP FLUTUANTE -->
@@ -798,21 +799,21 @@
     stripeUrl: STRIPE_TEST_LINK,
     videoUrl1: "",
     videoUrl2: "",
-    heroTitle: "Saiba onde está o que mais importa<br/><em>a qualquer hora, de qualquer lugar</em>",
-    heroSubtitle: "O menor rastreador GPS do Brasil. Do tamanho de uma moeda — proteção discreta para veículos, pets, crianças e pertences.",
-    ctaText: "QUERO MEU RASTREK AGORA →",
-    urgencyText: "Restam apenas 47 unidades no estoque!",
-    whatsappNumber: "5511957078928",
+    heroTitle: "A solução simples e inteligente<br/><em>que protege o que é seu</em>",
+    heroSubtitle: "Mais segurança para seus bens, sem instalação elétrica e com acompanhamento pelo celular. Ideal para carros, motos, mochilas e objetos de valor.",
+    ctaText: "QUERO MINHA TAG AGORA →",
+    urgencyText: "Oferta por tempo limitado!",
+    whatsappNumber: "5511992606660", // Atualizado para o telefone oficial do site
     testimonials: [
-      { name: "Carlos M.", city: "São Paulo, SP", text: "Uso no meu carro e na mochila do meu filho. A localização em tempo real me dá uma paz de espírito enorme.", stars: 5 },
-      { name: "Fernanda L.", city: "Rio de Janeiro, RJ", text: "Comprei pra coleira do meu cachorro. Agora sei em tempo real se ele fugir. Valeu cada centavo!", stars: 5 },
-      { name: "Roberto S.", city: "Belo Horizonte, MG", text: "Acompanho a frota da empresa e minhas malas de viagem pelo mesmo aplicativo.", stars: 5 }
+      { name: "Carlos M.", city: "São Paulo, SP", text: "Meu carro foi roubado há dois anos. Depois de instalar a TAG Rastrek, fiquei tranquilo.", stars: 5 },
+      { name: "Fernanda L.", city: "Rio de Janeiro, RJ", text: "Comprei para colocar na mala e na mochila da minha filha. Agora sei em tempo real onde está. Vale muito a pena!", stars: 5 },
+      { name: "Roberto S.", city: "Belo Horizonte, MG", text: "Tenho alguns implementos rurais. Com a TAG Rastrek consigo acompanhar tudo no mesmo app sem me preocupar com instalação elétrica.", stars: 5 }
     ],
     faqItems: [
-      { q: "Onde posso colocar a Tag Rastrek?", a: "Pode ser colocada em carros, motos, coleiras de pets, mochilas de crianças, malas de viagem ou usada com idosos." },
-      { q: "Precisa de instalação profissional?", a: "Não! O Rastrek é plug and play. Retire a película protetora e fixe no local desejado." },
-      { q: "Quanto tempo dura a bateria?", a: "Até 30 dias em uso contínuo. Um indicador no app avisa quando está chegando a 20%." },
-      { q: "Como funciona a assinatura?", a: "A assinatura mensal de R$ 39,90 garante a transmissão de dados contínua do chip GPS sem fidelidade." }
+      { q: "Precisa de instalação?", a: "Não. A TAG Rastrek não precisa de instalação elétrica. É só posicionar e usar." },
+      { q: "A bateria dura quanto tempo?", a: "A bateria possui uma duração de até 2 anos (variando conforme o uso), além de ter fácil substituição." },
+      { q: "Posso usar em mais de um bem?", a: "Sim! A TAG é portátil, discreta e pode ser transferida para diferentes bens sempre que você precisar." },
+      { q: "Como funciona a assinatura?", a: "Para utilizar a localização na plataforma, é cobrada uma assinatura mensal de R$ 39,90 que garante o funcionamento do monitoramento." }
     ]
   };
 
@@ -868,8 +869,8 @@
     document.getElementById('final-cta-btn').href = checkoutUrl;
     document.getElementById('nav-cta-btn').href = checkoutUrl;
 
-    const wa = c.whatsappNumber || '5511957078928';
-    document.getElementById('whatsapp-btn').href = `https://wa.me/${wa}?text=${encodeURIComponent('Olá! Quero tirar dúvidas sobre o Rastrek GPS')}`;
+    const wa = c.whatsappNumber || '5511992606660';
+    document.getElementById('whatsapp-btn').href = `https://wa.me/${wa}?text=${encodeURIComponent('Olá! Quero tirar dúvidas sobre a TAG Rastrek')}`;
 
     // Renderiza Vídeo 1 e Vídeo 2 de forma independente
     renderSingleVideo(c.videoUrl1 || c.videoUrl, 'video-section-1', 'video-wrapper-1');
