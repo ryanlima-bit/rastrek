@@ -86,7 +86,7 @@
     .text-center .section-sub { margin-left: auto; margin-right: auto; }
 
     /* ── O PRODUTO ── */
-    .features { background: var(--surface); }
+    .features { background: var(--surface); border-bottom: 1px solid var(--border); }
     .features-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
     @media (max-width: 768px) { .features-inner { grid-template-columns: 1fr; gap: 40px; } }
     .features-img { border-radius: 20px; overflow: hidden; display: flex; justify-content: center; }
@@ -98,7 +98,7 @@
     .feature-item p { font-size: 0.9rem; color: var(--muted); }
 
     /* ── COMO FUNCIONA ── */
-    .how { background: var(--surface2); }
+    .how { background: var(--surface2); border-bottom: 1px solid var(--border); }
     .how-inner { max-width: 1100px; margin: 0 auto; }
     .how-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 24px; margin-top: 40px; }
     .how-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 32px 28px; }
@@ -168,10 +168,10 @@
   <a href="https://pag.ae/829R9eJM1" class="nav-cta" id="nav-cta-btn">Comprar Agora</a>
 </nav>
 
-<!-- HERO SECTION (COM O VÍDEO NO TOPO) -->
+<!-- HERO SECTION -->
 <section class="hero text-center">
   
-  <!-- 1. VÍDEO DEMONSTRATIVO (AGORA NO TOPO ABSOLUTO DA SECÇÃO) -->
+  <!-- VÍDEO 1 (TOPO) -->
   <div id="video-section-1" class="hidden" style="width: 100%; max-width: 800px; margin: 0 auto 30px; padding: 0; z-index: 10;">
     <p class="section-label">Demonstração</p>
     <h2 class="section-title" style="font-size: 1.5rem; margin-bottom: 20px;">Localização de Pessoas!</h2>
@@ -200,6 +200,13 @@
 
   <a href="https://pag.ae/829R9eJM1" class="btn-cta" id="main-cta-btn">QUERO MINHA TAG AGORA →</a>
   <p class="urgency-line" id="urgency-text">Oferta por tempo limitado!</p>
+
+  <!-- VÍDEO 2 (ABAIXO DA URGÊNCIA) -->
+  <div id="video-section-2" class="hidden" style="width: 100%; max-width: 800px; margin: 40px auto 0; padding: 0; z-index: 10;">
+    <p class="section-label">Funciona mesmo?</p>
+    <h2 class="section-title" style="font-size: 1.5rem; margin-bottom: 20px;">Localização de Pets!</h2>
+    <div class="video-container" id="video-wrapper-2" style="margin-top: 0; box-shadow: 0 10px 30px rgba(255,210,41,0.15);"></div>
+  </div>
 
   <div class="trust-row">
     <div class="trust-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Compra 100% segura</div>
@@ -282,11 +289,11 @@
   </div>
 </section>
 
-<!-- 2. VÍDEO DEMONSTRATIVO ACIMA DE QUEM JÁ USA -->
-<section class="video-section hidden text-center" id="video-section-2" style="background:var(--surface);">
-  <p class="section-label">Funciona mesmo?</p>
-  <h2 class="section-title">Confira na prática</h2>
-  <div class="video-container" id="video-wrapper-2"></div>
+<!-- 3. VÍDEO DEMONSTRATIVO 3 (NOVO - ABAIXO DO COMO FUNCIONA) -->
+<section class="video-section hidden text-center" id="video-section-3" style="background:var(--surface);">
+  <p class="section-label">Aprofunde-se</p>
+  <h2 class="section-title">Ainda com dúvidas?</h2>
+  <div class="video-container" id="video-wrapper-3"></div>
 </section>
 
 <!-- DEPOIMENTOS -->
@@ -391,6 +398,7 @@
     stripeUrl: PAGBANK_LINK,
     videoUrl1: "",
     videoUrl2: "",
+    videoUrl3: "", // Novo vídeo adicionado
     heroTitle: "A solução simples e inteligente<br/><em>que protege o que é seu</em>",
     heroSubtitle: "Mais segurança para seus bens, sem instalação elétrica e com acompanhamento pelo celular. Ideal para carros, motos, mochilas e objetos de valor.",
     ctaText: "QUERO MINHA TAG AGORA →",
@@ -398,14 +406,10 @@
     whatsappNumber: "5511992606660", 
     testimonials: [
       { name: "Carlos M.", city: "São Paulo, SP", text: "Meu carro foi roubado há dois anos. Depois de instalar a TAG Rastrek, fiquei tranquilo.", stars: 5 },
-      { name: "Fernanda L.", city: "Rio de Janeiro, RJ", text: "Comprei para colocar na mala e na mochila da minha filha. Agora sei em tempo real onde está. Vale muito a pena!", stars: 5 },
-      { name: "Roberto S.", city: "Belo Horizonte, MG", text: "Tenho alguns implementos rurais. Com a TAG Rastrek consigo acompanhar tudo no mesmo app sem me preocupar com instalação elétrica.", stars: 5 }
+      { name: "Fernanda L.", city: "Rio de Janeiro, RJ", text: "Comprei para colocar na mala e na mochila da minha filha. Agora sei em tempo real onde está. Vale muito a pena!", stars: 5 }
     ],
     faqItems: [
-      { q: "Precisa de instalação?", a: "Não. A TAG Rastrek não precisa de instalação elétrica. É só posicionar e usar." },
-      { q: "A bateria dura quanto tempo?", a: "A bateria possui uma duração de até 2 anos (variando conforme o uso), além de ter fácil substituição." },
-      { q: "Posso usar em mais de um bem?", a: "Sim! A TAG é portátil, discreta e pode ser transferida para diferentes bens sempre que você precisar." },
-      { q: "Como funciona a assinatura?", a: "Para utilizar a localização na plataforma, é cobrada uma assinatura mensal de R$ 39,90 que garante o funcionamento do monitoramento." }
+      { q: "Precisa de instalação?", a: "Não. A TAG Rastrek não precisa de instalação elétrica. É só posicionar e usar." }
     ]
   };
 
@@ -464,9 +468,10 @@
     const wa = c.whatsappNumber || '5511992606660';
     document.getElementById('whatsapp-btn').href = `https://wa.me/${wa}?text=${encodeURIComponent('Olá! Quero tirar dúvidas sobre a TAG Rastrek')}`;
 
-    // Renderiza Vídeo 1 e Vídeo 2 de forma independente
+    // Renderiza Vídeo 1, Vídeo 2 e o NOVO Vídeo 3
     renderSingleVideo(c.videoUrl1 || c.videoUrl, 'video-section-1', 'video-wrapper-1');
     renderSingleVideo(c.videoUrl2, 'video-section-2', 'video-wrapper-2');
+    renderSingleVideo(c.videoUrl3, 'video-section-3', 'video-wrapper-3');
 
     const grid = document.getElementById('testimonials-grid');
     grid.innerHTML = '';
