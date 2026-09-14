@@ -297,7 +297,7 @@
     <nav class="sidebar-nav">
       <div class="nav-item active" onclick="switchTab('dashboard')">Dashboard</div>
       <div class="nav-item" onclick="switchTab('preco')">Preço & Stripe</div>
-      <div class="nav-item" onclick="switchTab('textos')">Textos & Vídeo</div>
+      <div class="nav-item" onclick="switchTab('textos')">Textos & Vídeos</div>
       <div class="nav-item" onclick="switchTab('depoimentos')">Depoimentos</div>
       <div class="nav-item" onclick="switchTab('faq')">FAQ</div>
       <div class="nav-item" onclick="switchTab('contato')">WhatsApp & Links</div>
@@ -383,12 +383,12 @@
       </div>
     </div>
 
-    <!-- TEXTOS & VÍDEO -->
+    <!-- TEXTOS & VÍDEOS -->
     <div class="tab-panel hidden" id="tab-textos">
-      <div class="topbar"><div><h1>Textos & Vídeo</h1><p>Conteúdo da Landing Page</p></div></div>
+      <div class="topbar"><div><h1>Textos & Vídeos</h1><p>Conteúdo e Mídias da Landing Page</p></div></div>
 
       <div class="card">
-        <div class="card-title">Textos do Hero e Mídia Demonstrativa</div>
+        <div class="card-title">Textos Principais (Hero)</div>
         <div class="form-grid">
           <div class="form-group form-full">
             <label>Título principal (suporta &lt;em&gt; e &lt;br/&gt;)</label>
@@ -398,15 +398,35 @@
             <label>Subtítulo do hero</label>
             <textarea id="heroSubtitle" rows="2"></textarea>
           </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Vídeo 1 — Demonstrativo (Acima do Mapa)</div>
+        <div class="form-grid">
           <div class="form-group form-full">
-            <label>URL do Vídeo Demonstrativo</label>
+            <label>URL do Vídeo 1</label>
             <div style="display: flex; gap: 10px;">
-              <input type="url" id="videoUrl" placeholder="https://res.cloudinary.com/wqzty38l/video/upload/v1/rastrek.mp4" style="flex:1;"/>
-              <button type="button" class="btn btn-secondary" id="upload-widget-btn" onclick="openCloudinaryWidget()">
-                📁 Enviar Vídeo (Cloudinary)
+              <input type="url" id="videoUrl1" placeholder="https://res.cloudinary.com/wqzty38l/video/upload/v1/video1.mp4" style="flex:1;"/>
+              <button type="button" class="btn btn-secondary" onclick="openCloudinaryWidget('videoUrl1')">
+                📁 Enviar Vídeo 1 (Cloudinary)
               </button>
             </div>
-            <small style="color:var(--muted); font-size:0.75rem; margin-top:4px;">Você pode colar a URL do vídeo diretamente ou clicar no botão para selecionar do seu computador.</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Vídeo 2 — Na Prática (Acima dos Depoimentos)</div>
+        <div class="form-grid">
+          <div class="form-group form-full">
+            <label>URL do Vídeo 2</label>
+            <div style="display: flex; gap: 10px;">
+              <input type="url" id="videoUrl2" placeholder="https://res.cloudinary.com/wqzty38l/video/upload/v1/video2.mp4" style="flex:1;"/>
+              <button type="button" class="btn btn-secondary" onclick="openCloudinaryWidget('videoUrl2')">
+                📁 Enviar Vídeo 2 (Cloudinary)
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -441,7 +461,7 @@
           <label>Número WhatsApp (com DDI)</label>
           <div class="input-prefix">
             <span>+</span>
-            <input type="text" id="whatsappNumber" placeholder="5511999999999"/>
+            <input type="text" id="whatsappNumber" placeholder="5511957078928"/>
           </div>
         </div>
       </div>
@@ -481,13 +501,13 @@
   const db = getFirestore(app);
   const auth = getAuth(app);
 
-  // ── CONFIGURAÇÃO OFICIAL DO CLOUDINARY ──
+  // ── CONFIGURAÇÃO DO UPLOAD CLOUDINARY ──
   const CLOUDINARY_CLOUD_NAME = "wqzty38l"; 
   const CLOUDINARY_UPLOAD_PRESET = "rastrek"; 
 
-  window.openCloudinaryWidget = function() {
-    if (typeof cloudinary === 'undefined') {
-      alert('O SDK do Cloudinary ainda está carregando. Tente novamente em alguns segundos.');
+  window.openCloudinaryWidget = function(targetInputId) {
+    if (typeof cloudinary === 'undefined' || !cloudinary.createUploadWidget) {
+      alert('O SDK do Cloudinary ainda está carregando. Aguarde 3 segundos e clique novamente.');
       return;
     }
 
@@ -517,7 +537,7 @@
     }, (error, result) => {
       if (!error && result && result.event === "success") {
         const urlSegura = result.info.secure_url;
-        document.getElementById('videoUrl').value = urlSegura;
+        document.getElementById(targetInputId).value = urlSegura;
         showToast('Vídeo enviado com sucesso!', 'success');
       }
     });
@@ -570,17 +590,18 @@
     monthlyPrice: "39.90",
     originalPrice: "499",
     stripeUrl: "https://buy.stripe.com/test_dRm14fap358P8KYb8z4wM00",
-    videoUrl: "",
-    heroTitle: "Saiba onde seu carro está<br/><em>a qualquer hora, de qualquer lugar</em>",
-    heroSubtitle: "O menor rastreador GPS do Brasil. Do tamanho de uma moeda — instalação silenciosa em segundos.",
+    videoUrl1: "",
+    videoUrl2: "",
+    heroTitle: "Saiba onde está o que mais importa<br/><em>a qualquer hora, de qualquer lugar</em>",
+    heroSubtitle: "O menor rastreador GPS do Brasil. Do tamanho de uma moeda — proteção discreta para veículos, pets, crianças e pertences.",
     ctaText: "QUERO MEU RASTREK AGORA →",
     urgencyText: "Restam apenas 47 unidades no estoque!",
-    whatsappNumber: "5511999999999",
+    whatsappNumber: "5511957078928",
     testimonials: [
-      { name: "Carlos M.", city: "São Paulo, SP", text: "Meu carro foi roubado há dois anos. Depois do Rastrek, fiquei tranquilo. Localização precisa e app fácil.", stars: 5 }
+      { name: "Carlos M.", city: "São Paulo, SP", text: "Uso no meu carro e na mochila do meu filho. A localização em tempo real me dá uma paz de espírito enorme.", stars: 5 }
     ],
     faqItems: [
-      { q: "Precisa de instalação profissional?", a: "Não! O Rastrek é plug and play. Retire a película e fixe. Leva menos de 2 minutos." }
+      { q: "Onde posso utilizar a Tag Rastrek?", a: "A Tag Rastrek pode ser usada em veículos (carros, motos, bikes), coleiras de pets, mochilas de crianças, idosos ou malas de viagem." }
     ]
   };
 
@@ -603,12 +624,13 @@
     set('monthlyPrice', c.monthlyPrice);
     set('originalPrice', c.originalPrice);
     set('stripeUrl', c.stripeUrl);
-    set('videoUrl', c.videoUrl);
+    set('videoUrl1', c.videoUrl1 || c.videoUrl); // Suporte retroativo caso houvesse 'videoUrl' antigo
+    set('videoUrl2', c.videoUrl2);
     set('ctaText', c.ctaText);
     set('urgencyText', c.urgencyText);
     set('heroTitle', c.heroTitle);
     set('heroSubtitle', c.heroSubtitle);
-    set('whatsappNumber', c.whatsappNumber);
+    set('whatsappNumber', c.whatsappNumber || "5511957078928");
 
     const tList = document.getElementById('testimonials-list');
     tList.innerHTML = '';
@@ -653,12 +675,13 @@
       monthlyPrice: document.getElementById('monthlyPrice').value || '39.90',
       originalPrice: document.getElementById('originalPrice').value || '499',
       stripeUrl: document.getElementById('stripeUrl').value.trim() || 'https://buy.stripe.com/test_dRm14fap358P8KYb8z4wM00',
-      videoUrl: document.getElementById('videoUrl').value.trim(),
+      videoUrl1: document.getElementById('videoUrl1').value.trim(),
+      videoUrl2: document.getElementById('videoUrl2').value.trim(),
       ctaText: document.getElementById('ctaText').value || 'QUERO MEU RASTREK AGORA →',
       urgencyText: document.getElementById('urgencyText').value || '',
       heroTitle: document.getElementById('heroTitle').value || '',
       heroSubtitle: document.getElementById('heroSubtitle').value || '',
-      whatsappNumber: document.getElementById('whatsappNumber').value || '',
+      whatsappNumber: document.getElementById('whatsappNumber').value || '5511957078928',
       testimonials,
       faqItems,
       updatedAt: serverTimestamp(),

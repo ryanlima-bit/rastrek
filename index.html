@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Rastrek — Segurança Sempre Com Você</title>
-  <meta name="description" content="O menor rastreador GPS do Brasil. Saiba onde seu carro está em tempo real, direto no seu celular. Compacto, discreto e eficiente." />
+  <meta name="description" content="O menor rastreador GPS do Brasil. Saiba onde seus veículos, pets, crianças e pertences estão em tempo real, direto no seu celular." />
   
   <!-- FONTS & LEAFLET MAP CSS -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -251,10 +251,8 @@
       font-size: 1rem; color: var(--muted); max-width: 520px;
     }
 
-    /* Classes para forçar alinhamento quando necessário */
     .text-center { text-align: center; }
     .text-left { text-align: left; }
-    
     .text-center .section-sub { margin-left: auto; margin-right: auto; }
 
     /* ── SEÇÃO MAPA INTERATIVO GPS ── */
@@ -299,7 +297,7 @@
     }
     .leaflet-container { background: #0d0d0d !important; }
 
-    /* ── SEÇÃO PROTEÇÃO COMPLETA (NOVO COMPONENTE RADAR) ── */
+    /* ── SEÇÃO PROTEÇÃO COMPLETA (RADAR COM TEXTOS EXTERNOS) ── */
     .protection-section {
       padding: 90px 5%;
       background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0d0d0d 100%);
@@ -400,7 +398,7 @@
     .conn-person { transform: translate(-50%, -50%) rotate(180deg) translateX(90px); }
     @keyframes connection-pulse { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
 
-    /* ── O PRODUTO (TEXTOS ATUALIZADOS) ── */
+    /* ── O PRODUTO ── */
     .features { background: var(--surface); }
     .features-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
     @media (max-width: 768px) { .features-inner { grid-template-columns: 1fr; gap: 40px; } }
@@ -487,8 +485,8 @@
 <section class="hero text-center">
   <div class="hero-tag">🛰️ Rastreamento GPS em Tempo Real</div>
 
-  <h1 id="hero-title">Saiba onde seu carro está<br /><em>a qualquer hora, de qualquer lugar</em></h1>
-  <p class="hero-sub" id="hero-subtitle">O menor rastreador GPS do Brasil. Do tamanho de uma moeda — instalação silenciosa em segundos.</p>
+  <h1 id="hero-title">Saiba onde está o que mais importa<br /><em>a qualquer hora, de qualquer lugar</em></h1>
+  <p class="hero-sub" id="hero-subtitle">O menor rastreador GPS do Brasil. Do tamanho de uma moeda — proteção discreta para veículos, pets, crianças e pertences.</p>
 
   <!-- PRODUTO 3D INTERATIVO -->
   <div class="tag-container">
@@ -523,17 +521,19 @@
 </section>
 
 <!-- SEÇÃO MAPA INTERATIVO COM PULSO GPS -->
-<section class="map-section text-center">
-  <p class="section-label text-center">Tecnologia de Precisão</p>
-  <h2 class="section-title text-center">Localização em Tempo Real</h2>
-  <p class="section-sub text-center" style="margin: 0 auto; color:var(--muted)">Acompanhe o sinal GPS ativo direto no mapa. Atualização contínua com máxima precisão.</p>
+<section class="map-section text-left">
+  <div style="max-width: 1000px; margin: 0 auto;">
+    <p class="section-label text-left">Tecnologia de Precisão</p>
+    <h2 class="section-title text-left">Localização em Tempo Real</h2>
+    <p class="section-sub text-left" style="color:var(--muted)">Acompanhe o sinal GPS ativo direto no mapa. Atualização contínua com máxima precisão.</p>
+  </div>
   
   <div class="map-wrapper">
     <div id="map"></div>
   </div>
 </section>
 
-<!-- SEÇÃO PROTEÇÃO COMPLETA (RADAR COM TEXTOS FORA DA CAIXA) -->
+<!-- SEÇÃO PROTEÇÃO COMPLETA (RADAR COM TEXTOS EXTERNOS) -->
 <section class="protection-section text-center">
   <p class="section-label text-center">Proteção Multiuso</p>
   <h2 class="section-title text-center" style="color:#ff6600;">Rastrek</h2>
@@ -597,7 +597,7 @@
   </div>
 </section>
 
-<!-- O PRODUTO (TEXTOS SOLICITADOS) -->
+<!-- O PRODUTO -->
 <section class="features text-left" id="produto">
   <div class="features-inner">
     <div class="features-img">
@@ -621,7 +621,7 @@
           <div class="feature-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"/></svg></div>
           <div>
             <h4>Alerta de movimento</h4>
-            <p>Notificação imediata no seu celular quando o veículo é movimentado sem autorização.</p>
+            <p>Notificação imediata no seu celular quando o item monitorado é movimentado.</p>
           </div>
         </div>
         <div class="feature-item">
@@ -654,24 +654,24 @@
       <div class="how-card">
         <div class="how-num">01</div>
         <h3>Receba e instale</h3>
-        <p>O Rastrek chega na sua casa. Retire a película protetora e fixe em um local discreto no veículo — ele é magnético e adesivo.</p>
+        <p>O Rastrek chega na sua casa. Fixe no veículo, coleira do pet, mochila ou mala — ele é magnético e compacto.</p>
       </div>
       <div class="how-card">
         <div class="how-num">02</div>
         <h3>Baixe o app</h3>
-        <p>Disponível para Android e iOS. Faça login com o código que vem na caixa e vincule ao seu dispositivo em segundos.</p>
+        <p>Disponível para Android e iOS. Faça login com o código da caixa e vincule ao dispositivo em segundos.</p>
       </div>
       <div class="how-card">
         <div class="how-num">03</div>
         <h3>Rastreie em tempo real</h3>
-        <p>Veja a localização exata do seu veículo 24h por dia. Receba alertas automáticos de movimentação suspeita.</p>
+        <p>Veja a localização exata 24h por dia. Receba alertas automáticos de movimentação suspeita.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- 2. VÍDEO DEMONSTRATIVO ACIMA DE QUEM JÁ USA -->
-<section class="video-section hidden text-center" id="video-section-2" style="background:var(--surface);">
+<!-- 2. VÍDEO DEMONSTRATIVO ACIMA DOS DEPOIMENTOS -->
+<section class="video-section hidden text-center" id="video-section-2" style="background:var(--surface2);">
   <p class="section-label">Funciona mesmo?</p>
   <h2 class="section-title">Confira na prática</h2>
   <div class="video-container" id="video-wrapper-2"></div>
@@ -681,7 +681,7 @@
 <section class="testimonials text-left">
   <div class="testimonials-inner">
     <p class="section-label text-left">Quem já usa</p>
-    <h2 class="section-title text-left">Mais de 3.000 veículos<br/>protegidos no Brasil</h2>
+    <h2 class="section-title text-left">Mais de 3.000 pessoas e veículos<br/>protegidos no Brasil</h2>
 
     <div class="testimonials-grid" id="testimonials-grid"></div>
   </div>
@@ -700,7 +700,7 @@
 <!-- CTA FINAL -->
 <section class="cta-final text-center" id="comprar">
   <p class="section-label text-center">Garanta o seu</p>
-  <h2 class="section-title text-center" id="cta-title">Proteja seu veículo<br/>ainda hoje</h2>
+  <h2 class="section-title text-center" id="cta-title">Proteja o que mais importa<br/>ainda hoje</h2>
   <p class="section-sub text-center" id="cta-sub">Frete grátis para todo Brasil. Pagamento seguro pelo Stripe. Entrega em até 7 dias úteis.</p>
 
   <div class="price-block">
@@ -796,21 +796,23 @@
     monthlyPrice: "39.90",
     originalPrice: "499",
     stripeUrl: STRIPE_TEST_LINK,
-    videoUrl: "",
-    heroTitle: "Saiba onde seu carro está<br/><em>a qualquer hora, de qualquer lugar</em>",
-    heroSubtitle: "O menor rastreador GPS do Brasil. Do tamanho de uma moeda — instalação silenciosa em segundos.",
+    videoUrl1: "",
+    videoUrl2: "",
+    heroTitle: "Saiba onde está o que mais importa<br/><em>a qualquer hora, de qualquer lugar</em>",
+    heroSubtitle: "O menor rastreador GPS do Brasil. Do tamanho de uma moeda — proteção discreta para veículos, pets, crianças e pertences.",
     ctaText: "QUERO MEU RASTREK AGORA →",
     urgencyText: "Restam apenas 47 unidades no estoque!",
-    whatsappNumber: "5511999999999",
+    whatsappNumber: "5511957078928",
     testimonials: [
-      { name: "Carlos M.", city: "São Paulo, SP", text: "Meu carro foi roubado há dois anos. Depois de instalar o Rastrek, fiquei tranquilo.", stars: 5 },
-      { name: "Fernanda L.", city: "Rio de Janeiro, RJ", text: "Comprei pra minha filha. Agora sei em tempo real onde ela está. Vale cada centavo!", stars: 5 },
-      { name: "Roberto S.", city: "Belo Horizonte, MG", text: "Tenho frota de 3 carros. Com o Rastrek consigo acompanhar todos no mesmo app.", stars: 5 }
+      { name: "Carlos M.", city: "São Paulo, SP", text: "Uso no meu carro e na mochila do meu filho. A localização em tempo real me dá uma paz de espírito enorme.", stars: 5 },
+      { name: "Fernanda L.", city: "Rio de Janeiro, RJ", text: "Comprei pra coleira do meu cachorro. Agora sei em tempo real se ele fugir. Valeu cada centavo!", stars: 5 },
+      { name: "Roberto S.", city: "Belo Horizonte, MG", text: "Acompanho a frota da empresa e minhas malas de viagem pelo mesmo aplicativo.", stars: 5 }
     ],
     faqItems: [
+      { q: "Onde posso colocar a Tag Rastrek?", a: "Pode ser colocada em carros, motos, coleiras de pets, mochilas de crianças, malas de viagem ou usada com idosos." },
       { q: "Precisa de instalação profissional?", a: "Não! O Rastrek é plug and play. Retire a película protetora e fixe no local desejado." },
       { q: "Quanto tempo dura a bateria?", a: "Até 30 dias em uso contínuo. Um indicador no app avisa quando está chegando a 20%." },
-      { q: "Como funciona a assinatura?", a: "A assinatura mensal de R$ 39,90 garante a transmissão de dados contínua." }
+      { q: "Como funciona a assinatura?", a: "A assinatura mensal de R$ 39,90 garante a transmissão de dados contínua do chip GPS sem fidelidade." }
     ]
   };
 
@@ -822,6 +824,23 @@
       if (snap.exists()) config = { ...defaults, ...snap.data() };
     } catch (e) { console.warn('Firebase falhou, usando local.', e); }
     applyConfig(config);
+  }
+
+  function renderSingleVideo(url, sectionId, wrapperId) {
+    const sec = document.getElementById(sectionId);
+    const wrap = document.getElementById(wrapperId);
+
+    if (url && url.trim() !== "") {
+      sec.classList.remove('hidden');
+      if (url.includes('youtube.com') || url.includes('youtu.be')) {
+        const embedUrl = url.replace('watch?v=', 'embed/').replace('youtu.be/', 'youtube.com/embed/');
+        wrap.innerHTML = `<iframe src="${embedUrl}" allowfullscreen></iframe>`;
+      } else {
+        wrap.innerHTML = `<video src="${url}" controls autoplay muted loop></video>`;
+      }
+    } else {
+      sec.classList.add('hidden');
+    }
   }
 
   function applyConfig(c) {
@@ -849,25 +868,12 @@
     document.getElementById('final-cta-btn').href = checkoutUrl;
     document.getElementById('nav-cta-btn').href = checkoutUrl;
 
-    const wa = c.whatsappNumber || '5511999999999';
+    const wa = c.whatsappNumber || '5511957078928';
     document.getElementById('whatsapp-btn').href = `https://wa.me/${wa}?text=${encodeURIComponent('Olá! Quero tirar dúvidas sobre o Rastrek GPS')}`;
 
-    // Vídeo em Duas Posições
-    if (c.videoUrl && c.videoUrl.trim() !== "") {
-      const v1 = document.getElementById('video-section-1');
-      const v2 = document.getElementById('video-section-2');
-      v1.classList.remove('hidden');
-      v2.classList.remove('hidden');
-
-      let embedHtml = '';
-      if (c.videoUrl.includes('youtube.com') || c.videoUrl.includes('youtu.be')) {
-        embedHtml = `<iframe src="${c.videoUrl.replace('watch?v=', 'embed/')}" allowfullscreen></iframe>`;
-      } else {
-        embedHtml = `<video src="${c.videoUrl}" controls autoplay muted loop></video>`;
-      }
-      document.getElementById('video-wrapper-1').innerHTML = embedHtml;
-      document.getElementById('video-wrapper-2').innerHTML = embedHtml;
-    }
+    // Renderiza Vídeo 1 e Vídeo 2 de forma independente
+    renderSingleVideo(c.videoUrl1 || c.videoUrl, 'video-section-1', 'video-wrapper-1');
+    renderSingleVideo(c.videoUrl2, 'video-section-2', 'video-wrapper-2');
 
     const grid = document.getElementById('testimonials-grid');
     grid.innerHTML = '';
